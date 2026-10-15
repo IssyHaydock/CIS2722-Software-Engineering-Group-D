@@ -84,9 +84,7 @@ class Product:
         return None
         
     def dispaly_product(self):
-        print(f"Product ID: {self.product_id}")
-        print(f"Product name: {self.product_name}")
-        print(f"Product price: £{self.product_price}")
+        return [self.product_id, self.product_name, self.product_price]
 
 if __name__ == "__main__":
     product1 = Product.add_product("cake", 2.99)
@@ -99,6 +97,7 @@ if __name__ == "__main__":
     completed_id_search = Product.search_product(inputed_id)
 
     if completed_id_search is not None:
-        completed_id_search.dispaly_product()
+        output_info = completed_id_search.dispaly_product()
+        print(output_info[1])
     else:
         print("Product Not Found")
