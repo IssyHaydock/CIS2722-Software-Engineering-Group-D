@@ -1,0 +1,22 @@
+[
+    {
+        "product_id": "001",
+        "product_name": "latte",
+        "product_price": 2.99
+    },
+    {
+        "product_id": "002",
+        "product_name": "Monster",
+        "product_price": 1.85
+    },
+    {
+        "product_id": "003",
+        "product_name": "cake",
+        "product_price": 2.99
+    },
+    {
+        "product_id": "004",
+        "product_name": "red bull",
+        "product_price": 1.85
+    }
+]
