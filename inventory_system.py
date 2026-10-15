@@ -93,11 +93,15 @@ if __name__ == "__main__":
     product2 = Product.add_product("red bull", 1.85)
     product2.dispaly_product()
 
+
+#how to get information on the object from the product class 
     inputed_id = input("please enter an id")
     completed_id_search = Product.search_product(inputed_id)
 
     if completed_id_search is not None:
         output_info = completed_id_search.dispaly_product()
-        print(output_info[1])
+        print(output_info[0]) #for product id 
+        print(output_info[1]) #for product name
+        print(output_info[2]) # for product price 
     else:
         print("Product Not Found")
