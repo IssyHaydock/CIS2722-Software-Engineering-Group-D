@@ -84,7 +84,33 @@ class Product:
                     saved_products["product_price"]
                 )
         return None
+
+    @staticmethod
+    def remove_product(cls, product_id, filename = "product.json"):
+        print("this function has not been completed ")
+
+        try:
+            with open(filename, "r") as f:
+                inventory = json.load(f)
+
+        except FileNotFoundError:
+            inventory = []
+
+        except json.JSONDecodeError:
+            inventory = []  
+
+        for product in inventory: 
+            if product["product_id"] == product_id:
+                inventory.remove(product)
+                print("Product Removed")
+                break
+
+        with open(filename, "w") as f:
+            json.dump(inventory, f, indent= 4)
+
+        return product 
         
+    
     def dispaly_product(self):
         return [self.product_id, self.product_name, self.product_price]
 
@@ -194,3 +220,5 @@ if __name__ == "__main__":
         print(output_info[2]) # for product price 
     else:
         print("Product Not Found")
+
+    test_remove = Product.remove_product("001")
