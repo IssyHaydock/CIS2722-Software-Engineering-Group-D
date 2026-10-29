@@ -86,7 +86,7 @@ class Product:
         return None
 
     @staticmethod
-    def remove_product(cls, product_id, filename = "product.json"):
+    def remove_product(product_id, filename = "product.json"):
         print("this function has not been completed ")
 
         try:
@@ -108,7 +108,7 @@ class Product:
         with open(filename, "w") as f:
             json.dump(inventory, f, indent= 4)
 
-        return product 
+        return None
         
     
     def dispaly_product(self):
