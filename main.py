@@ -103,24 +103,33 @@ def calculate_change(cash_amount, final_price):
 
 # Check if the machine can give change
 def can_give_change(change_needed, available_change):
-    coins_to_return = {}
+    def find_change(amount_left, position):
+        # All coin values have been checked
+        if position == len(valid_cash_values):
+            if amount_left == 0:
+                return {}
+            return None
 
-    # Check coins from largest to smallest
-    coin_values = [200, 100, 50, 20, 10]
+        coin = valid_cash_values[position]
 
-    for coin in coin_values:
-        coins_used = 0
+        # Maximum number of this coin we can use
+        max_coins = min(amount_left // coin, available_change.get(coin, 0))
 
-        # Use this coin while we still need change
-        # and the machine has coins available
-        while change_needed >= coin and coins_used < available_change[coin]:
-            change_needed -= coin
-            coins_used += 1
+        # Try different numbers of this coin
+        for count in range(max_coins, -1, -1):
+            remaining = amount_left - (count * coin)
+            result = find_change(remaining, position + 1)
 
-        if coins_used > 0:
-            coins_to_return[coin] = coins_used
+            if result is not None:
+                if count > 0:
+                    result[coin] = count
+                return result
 
-    if change_needed == 0:
+        return None
+
+    coins_to_return = find_change(change_needed, 0)
+
+    if coins_to_return is not None:
         return True, coins_to_return
     else:
         return False, {}
@@ -188,3 +197,4 @@ def process_purchase(product_id, card_id, payment_method,cash_inserted=0):
 
     else:
         return "Invalid payment method."
+    # Add any additional logic for handling the purchase, updating inventory, etc. after quantity added
