@@ -44,13 +44,13 @@ def calculate_final_price(product_id,is_loyal):
     if product is None:
         raise ValueError("Product not found")
 
-    base_price = product.product_price
+    price_pence = round(product.product_price * 100)
 
     if is_loyal:
         discount = 0.10  # 10% discount for loyal customers
-        final_price = base_price * (1 - discount)
+        final_price = price_pence * (1 - discount)
     else:
-        final_price = base_price
+        final_price = price_pence
 
     return final_price
 
@@ -65,6 +65,15 @@ def validate_loyalty_status(card_id):
     else:
         return False
 
+# Validate cash value
+def is_valid_cash_value(cash_value):
+    if type(cash_value) is not int:
+        return False
+    if cash_value in valid_cash_values:
+        return True
+    else:
+        return False
+    
 
 # Validate cash payment
 def validate_cash_payment(cash_amount, final_price):
