@@ -1,5 +1,7 @@
 import inventory_system
 
+valid_loyalty_cards = ["L001", "L002", "L003"]
+
 
 def is_valid_product_id(product_id):
     try:
@@ -43,5 +45,23 @@ def calculate_final_price(product_id,is_loyal):
     return final_price
 
 # Test cases
-print(calculate_final_price("001", True))  # Example usage for a loyal customer
-print(calculate_final_price("002", False))  # Example usage for a non-loyal customer    
+# print(calculate_final_price("001", True))  # Example usage for a loyal customer
+# print(calculate_final_price("002", False))  # Example usage for a non-loyal customer    
+
+
+def validate_loyalty_status(card_id):
+    if card_id in valid_loyalty_cards:
+        return True
+    else:
+        return False
+
+def validate_cash_payment(cash_amount, final_price):
+    if cash_amount >= final_price:
+        return True
+    else:
+        return False
+    
+def calculate_change(cash_amount, final_price):
+    if cash_amount < final_price:
+        raise ValueError("Cash amount is less than the final price")
+    return cash_amount - final_price
