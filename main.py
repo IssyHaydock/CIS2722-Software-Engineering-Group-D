@@ -10,6 +10,8 @@ available_change = {
     10: 15    # 10p coins
 }
 
+valid_cash_values = [200, 100, 50, 20, 10]
+
 # Check if the product ID is valid
 def is_valid_product_id(product_id):
     try:
@@ -127,4 +129,43 @@ def cancel_transaction(payment_method, cash_inserted):
 
     else:
         return "Invalid payment method."
-    
+
+# Process purchase
+def process_purchase(product_id, card_id, payment_method,cash_inserted=0):
+    # Validate product ID
+    if not is_valid_product_id(product_id):
+        return "Invalid product ID."
+
+    # Validate loyalty status
+    is_loyal = validate_loyalty_status(card_id)
+
+    # Calculate final price
+    final_price = calculate_final_price(product_id, is_loyal)
+    # Convert pounds to pence
+    final_price_pence = round(final_price * 100)
+
+
+    if payment_method == "cash":
+        # Validate cash payment
+        if not validate_cash_payment(cash_inserted, final_price_pence):
+            return "Insufficient cash provided."
+
+        # Calculate change needed
+        change_needed = calculate_change(cash_inserted, final_price_pence)
+
+        # Check if the machine can give change
+        can_change, coins_to_return = can_give_change(change_needed, available_change)
+        if not can_change:
+            return "Cannot provide change for this transaction."
+
+        return f"Purchase successful. Change to return: {coins_to_return}"
+
+    elif payment_method == "card":
+        # Validate card payment
+        if not validate_card_payment():
+            return "Card payment declined."
+
+        return "Purchase successful with card payment."
+
+    else:
+        return "Invalid payment method."
