@@ -89,9 +89,17 @@ def validate_cash_payment(cash_amount, final_price):
     
 # Calculate change
 def calculate_change(cash_amount, final_price):
+    if type(cash_amount) is not int or type(final_price) is not int:
+        raise ValueError("Cash amounts must be in whole pence")
+
+    if cash_amount < 0 or final_price < 0:
+        raise ValueError("Cash amounts cannot be negative")
+
     if cash_amount < final_price:
-        raise ValueError("Cash amount is less than the final price")
+        raise ValueError("Not enough cash inserted")
+
     return cash_amount - final_price
+   
 
 
 # Check if the machine can give change
