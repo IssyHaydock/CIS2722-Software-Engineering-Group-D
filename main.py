@@ -162,9 +162,7 @@ def process_purchase(product_id, card_id, payment_method,cash_inserted=0):
     is_loyal = validate_loyalty_status(card_id)
 
     # Calculate final price
-    final_price = calculate_final_price(product_id, is_loyal)
-    # Convert pounds to pence
-    final_price_pence = round(final_price * 100)
+    final_price_pence = calculate_final_price(product_id, is_loyal)
 
 
     if payment_method == "cash":
