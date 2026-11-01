@@ -25,3 +25,23 @@ def is_valid_product_id(product_id):
 # 4. Check the product's stock quantity.
 # 5. If quantity is greater than 0, return True.
 # 6. Otherwise, return False.
+
+
+def calculate_final_price(product_id,is_loyal):
+    product = inventory_system.Product.search_product(product_id)
+    if product is None:
+        raise ValueError("Product not found")
+
+    base_price = product.product_price
+
+    if is_loyal:
+        discount = 0.10  # 10% discount for loyal customers
+        final_price = base_price * (1 - discount)
+    else:
+        final_price = base_price
+
+    return final_price
+
+# Test cases
+print(calculate_final_price("001", True))  # Example usage for a loyal customer
+print(calculate_final_price("002", False))  # Example usage for a non-loyal customer    
