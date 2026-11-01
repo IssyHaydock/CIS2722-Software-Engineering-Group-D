@@ -103,14 +103,17 @@ def calculate_change(cash_amount, final_price):
 
 # Check if the machine can give change
 def can_give_change(change_needed, available_change):
+    change_values = sorted(available_change.keys(), reverse=True)
+    
+    
     def find_change(amount_left, position):
         # All coin values have been checked
-        if position == len(valid_cash_values):
+        if position == len(change_values):
             if amount_left == 0:
                 return {}
             return None
 
-        coin = valid_cash_values[position]
+        coin = change_values[position]
 
         # Maximum number of this coin we can use
         max_coins = min(amount_left // coin, available_change.get(coin, 0))
