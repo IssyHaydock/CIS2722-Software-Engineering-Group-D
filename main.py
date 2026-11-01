@@ -113,3 +113,18 @@ def validate_card_payment():
     else:
         print("Invalid bank response. Please enter 'approved' or 'declined'.")
         return validate_card_payment()  #Ask for valid input
+
+# Cancel transaction
+def cancel_transaction(payment_method, cash_inserted):
+    if payment_method == "cash" and cash_inserted > 0:
+        return f"Transaction cancelled. Returning cash: £{cash_inserted / 100:.2f}"
+
+    elif payment_method == "cash":
+        return "Transaction cancelled. No cash to return."
+
+    elif payment_method == "card":
+        return "Transaction cancelled. No card payment processed."
+
+    else:
+        return "Invalid payment method."
+    
