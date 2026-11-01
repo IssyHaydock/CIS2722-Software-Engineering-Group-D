@@ -103,6 +103,8 @@ def calculate_change(cash_amount, final_price):
 
 # Check if the machine can give change
 def can_give_change(change_needed, available_change):
+    if type(change_needed) is not int or change_needed < 0:
+        return False, {}
     change_values = sorted(available_change.keys(), reverse=True)
     
     
@@ -201,3 +203,17 @@ def process_purchase(product_id, card_id, payment_method,cash_inserted=0):
     else:
         return "Invalid payment method."
     # Add any additional logic for handling the purchase, updating inventory, etc. after quantity added
+
+
+if __name__ == "__main__":
+    # Example usage
+    product_id = input("Enter product ID: ")
+    card_id = input("Enter loyalty card ID (or press Enter if none): ")
+    payment_method = input("Enter payment method (cash/card): ").strip().lower()
+
+    cash_inserted = 0
+    if payment_method == "cash":
+        cash_inserted = int(input("Enter cash amount in pence: "))
+
+    result = process_purchase(product_id, card_id, payment_method, cash_inserted)
+    print(result)
