@@ -1,5 +1,6 @@
 import inventory_system
 import GUI
+from GUI import *
 import tkinter as tk
 from tkinter import *
 
@@ -236,8 +237,9 @@ def is_available(entry):
 
 if __name__ == "__main__":
     # Build GUI
-    root = tk.Tk()
-    GUI.create_GUI(root)
+    root = GUI.App()
+    root.title("Vending Machine Interface")
+    root.geometry("400x540")
 
     product_id_entry = ""
 

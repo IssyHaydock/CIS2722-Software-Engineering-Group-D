@@ -3,74 +3,166 @@ from main import *
 import tkinter as tk
 from tkinter import *
 
-text = ""   # Global text string
-drinkChoice = ""    # Placeholder for user drink choice input
+
+class App(tk.Tk):
+    def __init__(self, *args, **kwargs):
+        tk.Tk.__init__(self, *args, **kwargs)
+
+        container = tk.Frame(self)
+        container.pack(side='top', fill='both', expand=True)
+        container.grid_rowconfigure(0, weight = 1)
+        container.grid_columnconfigure(0, weight = 1)
+ 
+        # Initialise frames to an empty array
+        self.frames = {}  
+ 
+        # Iterate through window options
+        for F in (MainWindow, LoyaltyWindow):
+ 
+            frame = F(container, self)
+ 
+            # Initialise frames for each option
+            self.frames[F] = frame 
+ 
+            frame.grid(row = 0, column = 0, sticky ="nsew")
+ 
+        self.show_frame(MainWindow)
+
+    def show_frame(self, cont):
+        frame = self.frames[cont]
+        frame.tkraise()
 
 
-def create_GUI(root):
-    global text
-    global display
+class MainWindow(tk.Frame):
+    def __init__(self, parent, controller):
+        super().__init__(parent)
+        self.controller = controller
+        tk.Frame.__init__(self, parent)
 
-    root.title("Vending Machine Interface")
-    root.geometry("400x540")
-    root.configure(bg="#d2d8db")
-
-    display = StringVar()
-    displayFrame = Frame(root, bg="white")
-    displayFrame.pack(fill="both", expand=True)
-
-    displayText = Label(displayFrame, textvariable=display, bg='white', fg='black')
-    displayText.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        self.text = ""
     
-
-    btnFrame = Frame(root, bg="#d2d8db")
-    btnFrame.pack(fill="both", expand=True)
-
-    for col in range(3):
-        btnFrame.grid_columnconfigure(col, weight=1)
-
-    for row in range(4):
-        btnFrame.grid_rowconfigure(row, weight=1)
-
-    btn1 = Button(btnFrame, text='1', fg="black", bg="#e2e8eb", command=lambda: press(1))
-    btn1.grid(row=0, column=0, sticky="nsew")
-    btn2 = Button(btnFrame, text='2', fg="black", bg="#e2e8eb", command=lambda: press(2))
-    btn2.grid(row=0, column=1, sticky="nsew")
-    btn3 = Button(btnFrame, text='3', fg="black", bg="#e2e8eb", command=lambda: press(3))
-    btn3.grid(row=0, column=2, sticky="nsew")
-    btn4 = Button(btnFrame, text='4', fg="black", bg="#e2e8eb", command=lambda: press(4))
-    btn4.grid(row=1, column=0, sticky="nsew")
-    btn5 = Button(btnFrame, text='5', fg="black", bg="#e2e8eb", command=lambda: press(5))
-    btn5.grid(row=1, column=1, sticky="nsew")
-    btn6 = Button(btnFrame, text='6', fg="black", bg="#e2e8eb", command=lambda: press(6))
-    btn6.grid(row=1, column=2, sticky="nsew")
-    btn7 = Button(btnFrame, text='7', fg="black", bg="#e2e8eb", command=lambda: press(7))
-    btn7.grid(row=2, column=0, sticky="nsew")
-    btn8 = Button(btnFrame, text='8', fg="black", bg="#e2e8eb", command=lambda: press(8))
-    btn8.grid(row=2, column=1, sticky="nsew")
-    btn9 = Button(btnFrame, text='9', fg="black", bg="#e2e8eb", command=lambda: press(9))
-    btn9.grid(row=2, column=2, sticky="nsew")
-    btnDel = Button(btnFrame, text='\u2B8C', fg="white", bg="#bf0000", command=lambda: delete())
-    btnDel.grid(row=3, column=0, sticky="nsew")
-    btn0 = Button(btnFrame, text='0', fg="black", bg="#e2e8eb", command=lambda: press(0))
-    btn0.grid(row=3, column=1, sticky="nsew")
-    btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430", command=lambda: main.set_drink_choice(str(text)))
-    btnEnter.grid(row=3, column=2, sticky="nsew")
+        self.configure(bg="#d2d8db")
     
+        self.display = StringVar()
+        displayFrame = Frame(self, bg="white")
+        displayFrame.pack(fill="both", expand=True)
+    
+        admin_btn = Button(displayFrame, text='Admin', fg='black', bg='#a5b1b8')
+        admin_btn.pack(side='left', anchor='nw')
+    
+        displayText = Label(displayFrame, textvariable=self.display, bg='white', fg='black', font=('Arial', 25))
+        displayText.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        
+    
+        btnFrame = Frame(self, bg="#d2d8db")
+        btnFrame.pack(fill="both", expand=True)
+    
+        for col in range(3):
+            btnFrame.grid_columnconfigure(col, weight=1)
+    
+        for row in range(4):
+            btnFrame.grid_rowconfigure(row, weight=1)
+    
+        btn1 = Button(btnFrame, text='1', fg="black", bg="#e2e8eb", command=lambda: self.press(1))
+        btn1.grid(row=0, column=0, sticky="nsew")
+        btn2 = Button(btnFrame, text='2', fg="black", bg="#e2e8eb", command=lambda: self.press(2))
+        btn2.grid(row=0, column=1, sticky="nsew")
+        btn3 = Button(btnFrame, text='3', fg="black", bg="#e2e8eb", command=lambda: self.press(3))
+        btn3.grid(row=0, column=2, sticky="nsew")
+        btn4 = Button(btnFrame, text='4', fg="black", bg="#e2e8eb", command=lambda: self.press(4))
+        btn4.grid(row=1, column=0, sticky="nsew")
+        btn5 = Button(btnFrame, text='5', fg="black", bg="#e2e8eb", command=lambda: self.press(5))
+        btn5.grid(row=1, column=1, sticky="nsew")
+        btn6 = Button(btnFrame, text='6', fg="black", bg="#e2e8eb", command=lambda: self.press(6))
+        btn6.grid(row=1, column=2, sticky="nsew")
+        btn7 = Button(btnFrame, text='7', fg="black", bg="#e2e8eb", command=lambda: self.press(7))
+        btn7.grid(row=2, column=0, sticky="nsew")
+        btn8 = Button(btnFrame, text='8', fg="black", bg="#e2e8eb", command=lambda: self.press(8))
+        btn8.grid(row=2, column=1, sticky="nsew")
+        btn9 = Button(btnFrame, text='9', fg="black", bg="#e2e8eb", command=lambda: self.press(9))
+        btn9.grid(row=2, column=2, sticky="nsew")
+        btnDel = Button(btnFrame, text='\u2B8C', fg="white", bg="#bf0000", command=lambda: self.delete())
+        btnDel.grid(row=3, column=0, sticky="nsew")
+        btn0 = Button(btnFrame, text='0', fg="black", bg="#e2e8eb", command=lambda: self.press(0))
+        btn0.grid(row=3, column=1, sticky="nsew")
+        btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430", command=lambda: 
+                          controller.show_frame(LoyaltyWindow) if main.set_drink_choice(str(self.text)) else None)
+        btnEnter.grid(row=3, column=2, sticky="nsew")
 
-def press(key):
-    global text, display
+    def press(self, key):    
+        if len(self.text) < 3:
+            self.text += str(key)
+            self.display.set(self.text)
+    
+    
+    def delete(self):    
+        if len(self.text) > 0:
+            self.text = self.text[:-1]    # Remove end character
+        self.display.set(self.text)
 
-    if len(text) < 3:
-        text += str(key)
-        display.set(text)
-    # else:
-        # error - too many keys pressed.
 
+class LoyaltyWindow(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
 
-def delete():
-    global text, display
+        self.text = ""
+    
+        self.configure(bg="#d2d8db")
+    
+        self.display = StringVar()
+        displayFrame = Frame(self, bg="white")
+        displayFrame.pack(fill="both", expand=True)
 
-    if len(text) > 0:
-        text = text[:-1]    # Remove end character
-    display.set(text)
+       # displayLabel = Label(displayFrame, text='Scan loyalty card\nor enter loyalty number:')
+        #displayLabel.pack(relx=0.5, rely=0.4, anchor=tk.CENTER)
+    
+        displayText = Label(displayFrame, textvariable=self.display, bg='white', fg='black', font=('Arial', 25))
+        displayText.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        
+        btnFrame = Frame(self, bg="#d2d8db")
+        btnFrame.pack(fill="both", expand=True)
+    
+        for col in range(3):
+            btnFrame.grid_columnconfigure(col, weight=1)
+    
+        for row in range(4):
+            btnFrame.grid_rowconfigure(row, weight=1)
+    
+        btn1 = Button(btnFrame, text='1', fg="black", bg="#e2e8eb", command=lambda: self.press(1))
+        btn1.grid(row=0, column=0, sticky="nsew")
+        btn2 = Button(btnFrame, text='2', fg="black", bg="#e2e8eb", command=lambda: self.press(2))
+        btn2.grid(row=0, column=1, sticky="nsew")
+        btn3 = Button(btnFrame, text='3', fg="black", bg="#e2e8eb", command=lambda: self.press(3))
+        btn3.grid(row=0, column=2, sticky="nsew")
+        btn4 = Button(btnFrame, text='4', fg="black", bg="#e2e8eb", command=lambda: self.press(4))
+        btn4.grid(row=1, column=0, sticky="nsew")
+        btn5 = Button(btnFrame, text='5', fg="black", bg="#e2e8eb", command=lambda: self.press(5))
+        btn5.grid(row=1, column=1, sticky="nsew")
+        btn6 = Button(btnFrame, text='6', fg="black", bg="#e2e8eb", command=lambda: self.press(6))
+        btn6.grid(row=1, column=2, sticky="nsew")
+        btn7 = Button(btnFrame, text='7', fg="black", bg="#e2e8eb", command=lambda: self.press(7))
+        btn7.grid(row=2, column=0, sticky="nsew")
+        btn8 = Button(btnFrame, text='8', fg="black", bg="#e2e8eb", command=lambda: self.press(8))
+        btn8.grid(row=2, column=1, sticky="nsew")
+        btn9 = Button(btnFrame, text='9', fg="black", bg="#e2e8eb", command=lambda: self.press(9))
+        btn9.grid(row=2, column=2, sticky="nsew")
+        btnDel = Button(btnFrame, text='\u2B8C', fg="white", bg="#bf0000", command=lambda: self.delete())
+        btnDel.grid(row=3, column=0, sticky="nsew")
+        btn0 = Button(btnFrame, text='0', fg="black", bg="#e2e8eb", command=lambda: self.press(0))
+        btn0.grid(row=3, column=1, sticky="nsew")
+        btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430", command=lambda: main.set_drink_choice(str(self.text)))
+        btnEnter.grid(row=3, column=2, sticky="nsew")
+
+    def press(self, key):    
+        if len(self.text) < 3:
+            self.text += str(key)
+            self.display.set(self.text)
+        # else:
+            # error - too many keys pressed.
+    
+    
+    def delete(self):    
+        if len(self.text) > 0:
+            self.text = self.text[:-1]    # Remove end character
+        self.display.set(self.text)
+                
