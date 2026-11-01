@@ -208,11 +208,40 @@ def process_purchase(product_id, card_id, payment_method,cash_inserted=0):
     # Add any additional logic for handling the purchase, updating inventory, etc. after quantity added
 
 
+
+def set_drink_choice(entry):
+    global product_id_entry
+    
+    if len(entry) == 3:  # Validate input length
+        if is_valid_product_id(entry):    # Validate that the input matches a valid product Id
+            if is_available(entry):   # CHANGE TO NEW FUNTCION    Verify that selected drink is available
+                product_id_entry = entry  # Store user input in product_id
+                # display scan loyalty screen   # Move to next screen
+            else:
+                # display error - drink out of stock
+                print("Drink out of stock")
+        else:
+            # display error - invalid entry
+            print("Invalid entry")
+    else:
+        # display error - invalid entry  
+        print("Invalid entry")
+
+     
+# DELETE - PLACE HOLDER
+def is_available(entry):
+    return True      
+
+
+
 if __name__ == "__main__":
     # Build GUI
     root = tk.Tk()
     GUI.create_GUI(root)
 
+    product_id_entry = ""
+
+    """
     # Example usage
     product_id = input("Enter product ID: ")
     card_id = input("Enter loyalty card ID (or press Enter if none): ")
@@ -224,5 +253,6 @@ if __name__ == "__main__":
 
     result = process_purchase(product_id, card_id, payment_method, cash_inserted)
     print(result)
+    """
 
     root.mainloop()

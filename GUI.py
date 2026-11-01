@@ -54,13 +54,12 @@ def create_GUI(root):
     btnDel.grid(row=3, column=0, sticky="nsew")
     btn0 = Button(btnFrame, text='0', fg="black", bg="#e2e8eb", command=lambda: press(0))
     btn0.grid(row=3, column=1, sticky="nsew")
-    btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430", command=lambda: setDrinkChoice())
+    btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430", command=lambda: main.set_drink_choice(str(text)))
     btnEnter.grid(row=3, column=2, sticky="nsew")
     
 
 def press(key):
-    global text
-    global display
+    global text, display
 
     if len(text) < 3:
         text += str(key)
@@ -69,31 +68,9 @@ def press(key):
         # error - too many keys pressed.
 
 
-def setDrinkChoice():
-    return
-"""
-    global text
-    global display
-    
-    if len(text) == 3:  # Validate input length
-        if isValidDrinkId(text):    # Validate that the input matches a valid product Id
-            if isAvailable(text):   # Verify that selected drink is available
-                drinkChoice = text  # Store user input in drinkChoice
-                # display scan loyalty screen   # Move to next screen
-            else:
-                # display error - drink out of stock
-        else:
-            # display error - invalid entry
-    else:
-        # display error - invalid entry           
-"""
-
-
 def delete():
-    global text
-    global display
+    global text, display
+
     if len(text) > 0:
         text = text[:-1]    # Remove end character
     display.set(text)
-
-
