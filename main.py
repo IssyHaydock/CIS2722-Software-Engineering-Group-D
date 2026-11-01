@@ -77,11 +77,16 @@ def is_valid_cash_value(cash_value):
 
 # Validate cash payment
 def validate_cash_payment(cash_amount, final_price):
+    if type(cash_amount) is not int or type(final_price) is not int:
+        return False
+    if cash_amount < 0 or final_price < 0:
+        return False
+    
     if cash_amount >= final_price:
         return True
     else:
         return False
-
+    
 # Calculate change
 def calculate_change(cash_amount, final_price):
     if cash_amount < final_price:
