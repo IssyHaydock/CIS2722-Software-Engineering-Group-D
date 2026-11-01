@@ -47,8 +47,7 @@ def calculate_final_price(product_id,is_loyal):
     price_pence = round(product.product_price * 100)
 
     if is_loyal:
-        discount = 0.10  # 10% discount for loyal customers
-        final_price = price_pence * (1 - discount)
+        final_price = round(price_pence * 0.9)  # Apply 10% discount for loyal customers
     else:
         final_price = price_pence
 
