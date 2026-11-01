@@ -10,7 +10,7 @@ available_change = {
     10: 15    # 10p coins
 }
 
-valid_cash_values = [200, 100, 50, 20, 10]
+valid_cash_values = [10,20,50,100,200,500,1000]  # Valid cash values in pence
 
 # Check if the product ID is valid
 def is_valid_product_id(product_id):
