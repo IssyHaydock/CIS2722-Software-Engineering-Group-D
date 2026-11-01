@@ -1,4 +1,7 @@
 import inventory_system
+import GUI
+import tkinter as tk
+from tkinter import *
 
 valid_loyalty_cards = ["L001", "L002", "L003"]
 
@@ -206,6 +209,10 @@ def process_purchase(product_id, card_id, payment_method,cash_inserted=0):
 
 
 if __name__ == "__main__":
+    # Build GUI
+    root = tk.Tk()
+    GUI.create_GUI(root)
+
     # Example usage
     product_id = input("Enter product ID: ")
     card_id = input("Enter loyalty card ID (or press Enter if none): ")
@@ -217,3 +224,5 @@ if __name__ == "__main__":
 
     result = process_purchase(product_id, card_id, payment_method, cash_inserted)
     print(result)
+
+    root.mainloop()

@@ -1,45 +1,16 @@
+import main
+from main import *
 import tkinter as tk
 from tkinter import *
 
 text = ""   # Global text string
 drinkChoice = ""    # Placeholder for user drink choice input
 
-def press(key):
+
+def create_GUI(root):
     global text
-    if len(text) < 3:
-        text += str(key)
-        display.set(text)
-    # else:
-        # error - too many keys pressed.
+    global display
 
-
-def setDrinkChoice():
-    return
-"""
-    global text
-    
-    if len(text) == 3:  # Validate input length
-        if isValidDrinkId(text):    # Validate that the input matches a valid product Id
-            if isAvailable(text):   # Verify that selected drink is available
-                drinkChoice = text  # Store user input in drinkChoice
-                # display scan loyalty screen   # Move to next screen
-            else:
-                # display error - drink out of stock
-        else:
-            # display error - invalid entry
-    else:
-        # display error - invalid entry           
-"""
-
-def delete():
-    global text
-    if len(text) > 0:
-        text = text[:-1]    # Remove end character
-    display.set(text)
-
-
-if __name__ == "__main__":
-    root = tk.Tk()
     root.title("Vending Machine Interface")
     root.geometry("400x540")
     root.configure(bg="#d2d8db")
@@ -86,7 +57,43 @@ if __name__ == "__main__":
     btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430", command=lambda: setDrinkChoice())
     btnEnter.grid(row=3, column=2, sticky="nsew")
     
+
+def press(key):
+    global text
+    global display
+
+    if len(text) < 3:
+        text += str(key)
+        display.set(text)
+    # else:
+        # error - too many keys pressed.
+
+
+def setDrinkChoice():
+    return
+"""
+    global text
+    global display
     
-    
-    
-    root.mainloop()
+    if len(text) == 3:  # Validate input length
+        if isValidDrinkId(text):    # Validate that the input matches a valid product Id
+            if isAvailable(text):   # Verify that selected drink is available
+                drinkChoice = text  # Store user input in drinkChoice
+                # display scan loyalty screen   # Move to next screen
+            else:
+                # display error - drink out of stock
+        else:
+            # display error - invalid entry
+    else:
+        # display error - invalid entry           
+"""
+
+
+def delete():
+    global text
+    global display
+    if len(text) > 0:
+        text = text[:-1]    # Remove end character
+    display.set(text)
+
+
