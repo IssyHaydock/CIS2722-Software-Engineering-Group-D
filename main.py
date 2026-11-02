@@ -210,15 +210,15 @@ def process_purchase(product_id, card_id, payment_method,cash_inserted=0):
 
 
 
-def set_drink_choice(entry):
-    global product_id_entry
+def set_drink_choice(choice):
+    global product_id_choice
     
-    if len(entry) == 3:  # Validate input length
-        if is_valid_product_id(entry):    # Validate that the input matches a valid product Id
-            if is_available(entry):   # CHANGE TO NEW FUNTCION    Verify that selected drink is available
-                product_id_entry = entry  # Store user input in product_id
+    if len(choice) == 3:  # Validate input length
+        if is_valid_product_id(choice):    # Validate that the input matches a valid product Id
+            if is_available(choice):   # CHANGE TO NEW FUNTCION    Verify that selected drink is available
+                product_id_choice = choice  # Store user input in product_id
                 return True
-                # display scan loyalty screen   # Move to next screen
+                # Displays scan loyalty screen   # Move to next screen
             else:
                 return False
         else:
@@ -227,9 +227,18 @@ def set_drink_choice(entry):
         return False
 
      
-# DELETE - PLACE HOLDER
+# PLACE HOLDER FUNCTIONS <----------------------------------------------------------------------------------------------------------------------------------------------
 def is_available(entry):
-    return True      
+    return True     
+
+def is_valid_loyalty():
+    is_valid = input("Is loyalty card valid: ").lower()
+    if is_valid == 'y':
+        calculate_final_price(product_id_choice, True)
+        return True
+    else:
+        calculate_final_price(product_id_choice, False)
+        return False 
 
 
 
@@ -239,7 +248,7 @@ if __name__ == "__main__":
     root.title("Vending Machine Interface")
     root.geometry("400x540")
 
-    product_id_entry = ""
+    product_id_choice = ""
 
     """
     # Example usage

@@ -17,7 +17,7 @@ class App(tk.Tk):
         self.frames = {}  
  
         # Iterate through window options
-        for F in (MainWindow, LoyaltyWindow, AdminWindow):
+        for F in (MainWindow, LoyaltyWindow, ChoosePaymentWindow, AdminWindow):
  
             frame = F(container, self)
  
@@ -123,9 +123,10 @@ class LoyaltyWindow(tk.Frame):
                            controller.show_frame(MainWindow))
         cancelBtn.place(x=0, y=0)
 
-        skipBtn = Button(displayFrame, text='Skip', bg='#d2d8db', fg='black', font=('Arial', 14))
+        skipBtn = Button(displayFrame, text='Skip', bg='#d2d8db', fg='black', font=('Arial', 14), command=lambda: controller.show_frame(ChoosePaymentWindow))
         skipBtn.pack(pady=2, side='bottom')
-        scanBtn = Button(displayFrame, text='Scan Card', bg='#a5b1b8', fg='black', font=('Arial', 14))
+        scanBtn = Button(displayFrame, text='Scan Card', bg='#a5b1b8', fg='black', font=('Arial', 14), command=lambda: 
+                         controller.show_frame(ChoosePaymentWindow) if main.is_valid_loyalty() else None)   # Else show invalid loyalty error
         scanBtn.pack(side='bottom')
         
         btnFrame = Frame(self, bg="#d2d8db")
@@ -174,6 +175,64 @@ class LoyaltyWindow(tk.Frame):
         if len(self.text) > 0:
             self.text = self.text[:-1]    # Remove end character
         self.display.set(self.text)
+
+
+
+
+class ChoosePaymentWindow(tk.Frame):
+    def __init__(self, parent, controller):
+        super().__init__(parent)
+        self.controller = controller
+        tk.Frame.__init__(self, parent)
+
+        self.text = ""
+    
+        self.configure(bg="#d2d8db")
+    
+        self.display = StringVar()
+        displayFrame = Frame(self, bg="white")
+        displayFrame.pack(fill="both", expand=True)
+    
+        displayText = Label(displayFrame, textvariable=self.display, bg='white', fg='black', font=('Arial', 25))
+        displayText.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        
+    
+        btnFrame = Frame(self, bg="#d2d8db")
+        btnFrame.pack(fill="both", expand=True)
+    
+        for col in range(3):
+            btnFrame.grid_columnconfigure(col, weight=1)
+    
+        for row in range(4):
+            btnFrame.grid_rowconfigure(row, weight=1)
+    
+        btn1 = Button(btnFrame, text='1', fg="black", bg="#e2e8eb")
+        btn1.grid(row=0, column=0, sticky="nsew")
+        btn2 = Button(btnFrame, text='2', fg="black", bg="#e2e8eb")
+        btn2.grid(row=0, column=1, sticky="nsew")
+        btn3 = Button(btnFrame, text='3', fg="black", bg="#e2e8eb")
+        btn3.grid(row=0, column=2, sticky="nsew")
+        btn4 = Button(btnFrame, text='4', fg="black", bg="#e2e8eb")
+        btn4.grid(row=1, column=0, sticky="nsew")
+        btn5 = Button(btnFrame, text='5', fg="black", bg="#e2e8eb")
+        btn5.grid(row=1, column=1, sticky="nsew")
+        btn6 = Button(btnFrame, text='6', fg="black", bg="#e2e8eb")
+        btn6.grid(row=1, column=2, sticky="nsew")
+        btn7 = Button(btnFrame, text='7', fg="black", bg="#e2e8eb")
+        btn7.grid(row=2, column=0, sticky="nsew")
+        btn8 = Button(btnFrame, text='8', fg="black", bg="#e2e8eb")
+        btn8.grid(row=2, column=1, sticky="nsew")
+        btn9 = Button(btnFrame, text='9', fg="black", bg="#e2e8eb")
+        btn9.grid(row=2, column=2, sticky="nsew")
+        btnDel = Button(btnFrame, text='\u2B8C', fg="white", bg="#bf0000")
+        btnDel.grid(row=3, column=0, sticky="nsew")
+        btn0 = Button(btnFrame, text='0', fg="black", bg="#e2e8eb")
+        btn0.grid(row=3, column=1, sticky="nsew")
+        btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430")
+        btnEnter.grid(row=3, column=2, sticky="nsew")
+
+
+
 
 class AdminWindow(tk.Frame):
     def __init__(self, parent, controller):
