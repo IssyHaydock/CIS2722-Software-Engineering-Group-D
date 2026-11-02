@@ -21,10 +21,10 @@ class Product:
         product_price = float(product_price)
 
         if not product_name:
-            raise ValueError("product name can not be empty")
+            raise ValueError("Product name cannot be empty")
 
         if product_price < 0:
-            raise ValueError("product price can not be negative")
+            raise ValueError("Product price cannot be negative")
 
         try:
             with open(filename, "r") as f:
@@ -62,7 +62,7 @@ class Product:
         product_id = str(product_id).strip()
 
         if len(product_id) != 3 or not product_id.isdigit():
-            raise ValueError("please enter a correect ID")
+            raise ValueError("Please enter a correct ID")
 
         try:
             with open(filename, "r") as f:
@@ -87,7 +87,7 @@ class Product:
 
     @staticmethod
     def remove_product(product_id, filename = "product.json"):
-        print("this function has not been completed ")
+        print("This function has not been completed ")
 
         try:
             with open(filename, "r") as f:
@@ -111,7 +111,7 @@ class Product:
         return None
         
     
-    def dispaly_product(self):
+    def display_product(self):
         return [self.product_id, self.product_name, self.product_price]
 
 class Transaction_history:
@@ -151,7 +151,7 @@ class Transaction_history:
             raise ValueError("is_valid needs to be true or false")
         
         if payment_choice not in ["card", "cash"]:
-            raise ValueError("not appropriote payment choice")
+            raise ValueError("Not appropriate payment choice")
             
 
         try:
@@ -181,10 +181,10 @@ class Transaction_history:
         completed_id_search = Product.search_product(product_id)
 
         if completed_id_search is not None:
-            product_information = completed_id_search.dispaly_product()
+            product_information = completed_id_search.display_product()
             original_price = product_information[2]
         else:
-            raise ValueError("please enter a correct id")
+            raise ValueError("Please enter a correct id")
 
         transaction = cls(transaction_id, product_id, price_paid, original_price, is_loyal, date, time, is_valid, payment_choice)
 
@@ -197,16 +197,21 @@ class Transaction_history:
 
     
       #transaction_id, product_id, price_paid, original_price, is_loyal, date, time, is_valid, payment_choice  
-    def dispaly_transaction(self):
+    def display_transaction(self):
         return [self.transaction_id, self.product_id, self.price_paid, self.original_price, self.is_loyal, self.date, self.time, self.is_valid, self.payment_choice]
 
 
 if __name__ == "__main__":
+    product1 = Product.add_product("Espresso", 1.50)
+    product2 = Product.add_product("Latte", 2.20)
+    product3 = Product.add_product("Hot Chocolate", 2.00)
+    product4 = Product.add_product("Bottled Water", 1.00)
+    """
     product1 = Product.add_product("cake", 2.99)
-    product1.dispaly_product()
+    product1.display_product()
 
     product2 = Product.add_product("red bull", 1.85)
-    product2.dispaly_product()
+    product2.display_product()
 
     transaction = Transaction_history.add_transaction("001", "2.75", True, True, "card")
 #how to get information on the object from the product class 
@@ -214,7 +219,7 @@ if __name__ == "__main__":
     completed_id_search = Product.search_product(inputed_id)
 
     if completed_id_search is not None:
-        output_info = completed_id_search.dispaly_product()
+        output_info = completed_id_search.display_product()
         print(output_info[0]) #for product id 
         print(output_info[1]) #for product name
         print(output_info[2]) # for product price 
@@ -222,3 +227,4 @@ if __name__ == "__main__":
         print("Product Not Found")
 
     test_remove = Product.remove_product("001")
+    """

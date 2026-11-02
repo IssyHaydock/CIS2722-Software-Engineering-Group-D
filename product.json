@@ -1,0 +1,22 @@
+[
+    {
+        "product_id": "001",
+        "product_name": "Espresso",
+        "product_price": 1.5
+    },
+    {
+        "product_id": "002",
+        "product_name": "Latte",
+        "product_price": 2.2
+    },
+    {
+        "product_id": "003",
+        "product_name": "Hot Chocolate",
+        "product_price": 2.0
+    },
+    {
+        "product_id": "004",
+        "product_name": "Bottled Water",
+        "product_price": 1.0
+    }
+]
