@@ -200,13 +200,9 @@ class Transaction_history:
     def display_transaction(self):
         return [self.transaction_id, self.product_id, self.price_paid, self.original_price, self.is_loyal, self.date, self.time, self.is_valid, self.payment_choice]
 
-
+"""
 if __name__ == "__main__":
-    product1 = Product.add_product("Espresso", 1.50)
-    product2 = Product.add_product("Latte", 2.20)
-    product3 = Product.add_product("Hot Chocolate", 2.00)
-    product4 = Product.add_product("Bottled Water", 1.00)
-    """
+    
     product1 = Product.add_product("cake", 2.99)
     product1.display_product()
 
@@ -227,4 +223,4 @@ if __name__ == "__main__":
         print("Product Not Found")
 
     test_remove = Product.remove_product("001")
-    """
+"""
