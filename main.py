@@ -4,6 +4,14 @@ from GUI import *
 import tkinter as tk
 from tkinter import *
 
+transaction_data = {
+        'product_id': "",
+        'price_paid': 0,
+        'is_loyal': False,
+        'is_valid': False,
+        'payment_choice': ""
+}
+
 valid_loyalty_cards = ["L001", "L002", "L003"]
 
 available_change = {
@@ -211,12 +219,12 @@ def process_purchase(product_id, card_id, payment_method,cash_inserted=0):
 
 
 def set_drink_choice(choice):
-    global product_id_choice
+    global transaction_data
     
     if len(choice) == 3:  # Validate input length
         if is_valid_product_id(choice):    # Validate that the input matches a valid product Id
             if is_available(choice):   # CHANGE TO NEW FUNTCION    Verify that selected drink is available
-                product_id_choice = choice  # Store user input in product_id
+                transaction_data['product_id'] = choice  # Store user input in product_id
                 return True
                 # Displays scan loyalty screen   # Move to next screen
             else:
@@ -234,10 +242,11 @@ def is_available(entry):
 def is_valid_loyalty():
     is_valid = input("Is loyalty card valid: ").lower()
     if is_valid == 'y':
-        calculate_final_price(product_id_choice, True)
+        calculate_final_price(transaction_data['product_id'], True)
+        transaction_data['is_loyal'] = True
         return True
     else:
-        calculate_final_price(product_id_choice, False)
+        calculate_final_price(transaction_data['product_id'], False)
         return False 
 
 
@@ -247,8 +256,6 @@ if __name__ == "__main__":
     root = GUI.App()
     root.title("Vending Machine Interface")
     root.geometry("400x540")
-
-    product_id_choice = ""
 
     """
     # Example usage
