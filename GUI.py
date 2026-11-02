@@ -48,7 +48,7 @@ class MainWindow(tk.Frame):
         displayFrame.pack(fill="both", expand=True)
     
         admin_btn = Button(displayFrame, text='Admin', fg='black', bg='#a5b1b8', command=lambda: controller.show_frame(AdminWindow))
-        admin_btn.pack(side='left', anchor='nw')
+        admin_btn.place(x=0, y=0)
     
         displayText = Label(displayFrame, textvariable=self.display, bg='white', fg='black', font=('Arial', 25))
         displayText.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
@@ -86,7 +86,7 @@ class MainWindow(tk.Frame):
         btn0 = Button(btnFrame, text='0', fg="black", bg="#e2e8eb", command=lambda: self.press(0))
         btn0.grid(row=3, column=1, sticky="nsew")
         btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430", command=lambda: 
-                          controller.show_frame(LoyaltyWindow) if main.set_drink_choice(str(self.text)) else None)
+                          (self.reset(), controller.show_frame(LoyaltyWindow)) if main.set_drink_choice(str(self.text)) else None)
         btnEnter.grid(row=3, column=2, sticky="nsew")
 
     def press(self, key):    
@@ -98,6 +98,10 @@ class MainWindow(tk.Frame):
     def delete(self):    
         if len(self.text) > 0:
             self.text = self.text[:-1]    # Remove end character
+        self.display.set(self.text)
+
+    def reset(self):
+        self.text = ""
         self.display.set(self.text)
 
 
@@ -112,12 +116,17 @@ class LoyaltyWindow(tk.Frame):
         self.display = StringVar()
         displayFrame = Frame(self, bg="white")
         displayFrame.pack(fill="both", expand=True)
-
-       # displayLabel = Label(displayFrame, text='Scan loyalty card\nor enter loyalty number:')
-        #displayLabel.pack(relx=0.5, rely=0.4, anchor=tk.CENTER)
     
-        displayText = Label(displayFrame, textvariable=self.display, bg='white', fg='black', font=('Arial', 25))
+        displayText = Label(displayFrame, text="Scan loyalty card", bg='white', fg='black', font=('Arial', 25))
         displayText.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        cancelBtn = Button(displayFrame, text='Cancel', bg='#bf0000', fg='white', font=('Arial', 10), command=lambda: 
+                           controller.show_frame(MainWindow))
+        cancelBtn.place(x=0, y=0)
+
+        skipBtn = Button(displayFrame, text='Skip', bg='#d2d8db', fg='black', font=('Arial', 14))
+        skipBtn.pack(pady=2, side='bottom')
+        scanBtn = Button(displayFrame, text='Scan Card', bg='#a5b1b8', fg='black', font=('Arial', 14))
+        scanBtn.pack(side='bottom')
         
         btnFrame = Frame(self, bg="#d2d8db")
         btnFrame.pack(fill="both", expand=True)
@@ -128,29 +137,29 @@ class LoyaltyWindow(tk.Frame):
         for row in range(4):
             btnFrame.grid_rowconfigure(row, weight=1)
     
-        btn1 = Button(btnFrame, text='1', fg="black", bg="#e2e8eb", command=lambda: self.press(1))
+        btn1 = Button(btnFrame, text='1', fg="black", bg="#e2e8eb")
         btn1.grid(row=0, column=0, sticky="nsew")
-        btn2 = Button(btnFrame, text='2', fg="black", bg="#e2e8eb", command=lambda: self.press(2))
+        btn2 = Button(btnFrame, text='2', fg="black", bg="#e2e8eb")
         btn2.grid(row=0, column=1, sticky="nsew")
-        btn3 = Button(btnFrame, text='3', fg="black", bg="#e2e8eb", command=lambda: self.press(3))
+        btn3 = Button(btnFrame, text='3', fg="black", bg="#e2e8eb")
         btn3.grid(row=0, column=2, sticky="nsew")
-        btn4 = Button(btnFrame, text='4', fg="black", bg="#e2e8eb", command=lambda: self.press(4))
+        btn4 = Button(btnFrame, text='4', fg="black", bg="#e2e8eb")
         btn4.grid(row=1, column=0, sticky="nsew")
-        btn5 = Button(btnFrame, text='5', fg="black", bg="#e2e8eb", command=lambda: self.press(5))
+        btn5 = Button(btnFrame, text='5', fg="black", bg="#e2e8eb")
         btn5.grid(row=1, column=1, sticky="nsew")
-        btn6 = Button(btnFrame, text='6', fg="black", bg="#e2e8eb", command=lambda: self.press(6))
+        btn6 = Button(btnFrame, text='6', fg="black", bg="#e2e8eb")
         btn6.grid(row=1, column=2, sticky="nsew")
-        btn7 = Button(btnFrame, text='7', fg="black", bg="#e2e8eb", command=lambda: self.press(7))
+        btn7 = Button(btnFrame, text='7', fg="black", bg="#e2e8eb")
         btn7.grid(row=2, column=0, sticky="nsew")
-        btn8 = Button(btnFrame, text='8', fg="black", bg="#e2e8eb", command=lambda: self.press(8))
+        btn8 = Button(btnFrame, text='8', fg="black", bg="#e2e8eb")
         btn8.grid(row=2, column=1, sticky="nsew")
-        btn9 = Button(btnFrame, text='9', fg="black", bg="#e2e8eb", command=lambda: self.press(9))
+        btn9 = Button(btnFrame, text='9', fg="black", bg="#e2e8eb")
         btn9.grid(row=2, column=2, sticky="nsew")
-        btnDel = Button(btnFrame, text='\u2B8C', fg="white", bg="#bf0000", command=lambda: self.delete())
+        btnDel = Button(btnFrame, text='\u2B8C', fg="white", bg="#bf0000")
         btnDel.grid(row=3, column=0, sticky="nsew")
-        btn0 = Button(btnFrame, text='0', fg="black", bg="#e2e8eb", command=lambda: self.press(0))
+        btn0 = Button(btnFrame, text='0', fg="black", bg="#e2e8eb")
         btn0.grid(row=3, column=1, sticky="nsew")
-        btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430", command=lambda: main.set_drink_choice(str(self.text)))
+        btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430")
         btnEnter.grid(row=3, column=2, sticky="nsew")
 
     def press(self, key):    
@@ -178,15 +187,15 @@ class AdminWindow(tk.Frame):
         displayFrame = Frame(self, bg="white")
         displayFrame.pack(fill="both", expand=True)
 
-        returnBtn = Button(displayFrame, text='Back', bg='red', fg='white', command=lambda: controller.show_frame(MainWindow))
-        returnBtn.pack(side='left', anchor='nw')
+        returnBtn = Button(displayFrame, text='Back', bg='#bf0000', fg='white', command=lambda: controller.show_frame(MainWindow))
+        returnBtn.place(x=0, y=0)
 
         adminBtnFrame = Frame(displayFrame, bg="white")
         adminBtnFrame.pack(expand=True)
 
-        addBtn = Button(adminBtnFrame, text='Add Product')
+        addBtn = Button(adminBtnFrame, text='Add Product', font=('Arial', 14))
         addBtn.pack()
-        removeBtn = Button(adminBtnFrame, text='Remove Product')
+        removeBtn = Button(adminBtnFrame, text='Remove Product', font=('Arial', 14))
         removeBtn.pack(pady=5)
         
         btnFrame = Frame(self, bg="#d2d8db")

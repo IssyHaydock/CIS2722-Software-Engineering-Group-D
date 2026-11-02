@@ -217,16 +217,14 @@ def set_drink_choice(entry):
         if is_valid_product_id(entry):    # Validate that the input matches a valid product Id
             if is_available(entry):   # CHANGE TO NEW FUNTCION    Verify that selected drink is available
                 product_id_entry = entry  # Store user input in product_id
+                return True
                 # display scan loyalty screen   # Move to next screen
             else:
-                # display error - drink out of stock
-                print("Drink out of stock")
+                return False
         else:
-            # display error - invalid entry
-            print("Invalid entry")
+            return False
     else:
-        # display error - invalid entry  
-        print("Invalid entry")
+        return False
 
      
 # DELETE - PLACE HOLDER
