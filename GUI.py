@@ -26,7 +26,7 @@ class App(tk.Tk):
  
             frame.grid(row = 0, column = 0, sticky ="nsew")
  
-        self.show_frame(MainWindow)
+        self.show_frame(ChoosePaymentWindow)
 
     def show_frame(self, cont):
         frame = self.frames[cont]
@@ -193,24 +193,28 @@ class ChoosePaymentWindow(tk.Frame):
         super().__init__(parent)
         self.controller = controller
         tk.Frame.__init__(self, parent)
-
-        self.text = ""
     
         self.configure(bg="#d2d8db")
-    
-        self.display = StringVar()
+
         displayFrame = Frame(self, bg="white")
         displayFrame.pack(fill="both", expand=True)
-    
-        displayText = Label(displayFrame, textvariable=self.display, bg='white', fg='black', font=('Arial', 25))
-        displayText.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-        optionLabel = Label(displayFrame, text='Choose payment method:', bg='white', fg='black')
+        cancelBtn = Button(displayFrame, text='Cancel', bg='#bf0000', fg='white', font=('Arial', 10), command=lambda: 
+                        controller.show_frame(MainWindow))
+        cancelBtn.place(x=0, y=0)
+
+        optionLabel = Label(displayFrame, text='Choose payment method:', bg='white', fg='black', font=('Arial', 14))
         optionLabel.pack()
-        cashBtn = Button(displayFrame, text='Cash', fg='black', bg='#a5b1b8', command=lambda: controller.show_frame(CashPaymentWindow))
-        cashBtn.pack(side='left')
-        cardBtn = Button(displayFrame, text='Card', fg='black', bg='#a5b1b8', command=lambda: controller.show_frame(CardPaymentWindow))
-        cardBtn.pack(side='right')
+
+        centreFrame = Frame(displayFrame, bg='white')
+        centreFrame.place(relx=0.5, rely=0.5, anchor='center')
+        cashBtn = Button(centreFrame, text='Cash', fg='black', bg='#d2d8db', width=12, height=6,
+                        font=('Arial', 14), command=lambda: controller.show_frame(CashPaymentWindow))
+        cashBtn.pack(side='left', padx=20)
+        cardBtn = Button(centreFrame, text='Card', fg='black', bg='#d2d8db', width=12, height=6,
+                        font=('Arial', 14), command=lambda: controller.show_frame(CardPaymentWindow))
+        cardBtn.pack(side='right', padx=20)
+
 
         btnFrame = Frame(self, bg="#d2d8db")
         btnFrame.pack(fill="both", expand=True)
