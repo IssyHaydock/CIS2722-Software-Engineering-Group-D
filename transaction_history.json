@@ -1,0 +1,13 @@
+[
+    {
+        "transaction_id": "1",
+        "product_id": "001",
+        "price_paid": 1.5,
+        "original_price": 1.5,
+        "is_loyal": false,
+        "date": "05/11/26",
+        "time": "12:04:43",
+        "is_valid": false,
+        "payment_choice": "card"
+    }
+]

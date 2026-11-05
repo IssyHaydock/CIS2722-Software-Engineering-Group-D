@@ -1,15 +1,15 @@
-import inventory_system
+import inventory_system_copy
 import GUI
 from GUI import *
 import tkinter as tk
 from tkinter import *
 
 transaction_data = {
-        'product_id': "",
-        'price_paid': 0,
+        'product_id': "001",
+        'price_paid': 1.50,
         'is_loyal': False,
         'is_valid': False,
-        'payment_choice': ""
+        'payment_choice': "card"
 }
 
 valid_loyalty_cards = ["L001", "L002", "L003"]
@@ -253,11 +253,13 @@ def is_valid_loyalty():
 
 if __name__ == "__main__":
     # Build GUI
+    var1 = inventory_system_copy.Transaction_history.add_transaction(transaction_data)
+    """
     root = GUI.App()
     root.title("Vending Machine Interface")
     root.geometry("400x540")
 
-    """
+    
     # Example usage
     product_id = input("Enter product ID: ")
     card_id = input("Enter loyalty card ID (or press Enter if none): ")
@@ -271,4 +273,4 @@ if __name__ == "__main__":
     print(result)
     """
 
-    root.mainloop()
+    #root.mainloop()

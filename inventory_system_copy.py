@@ -232,7 +232,8 @@ if __name__ == "__main__":
         print("Product Not Found")
 
     test_remove = Product.remove_product("001")
-"""
+
 
 test_list
- transaction = Transaction_history.add_transaction("001", "2.75", True, True, "card")
+transaction = Transaction_history.add_transaction("001", "2.75", True, True, "card")
+"""
