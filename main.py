@@ -27,7 +27,7 @@ valid_cash_values = [10,20,50,100,200,500,1000]  # Valid cash values in pence
 # Check if the product ID is valid
 def is_valid_product_id(product_id):
     try:
-        found_product = inventory_system.Product.search_product(product_id)
+        found_product = inventory_system_copy.Product.search_product(product_id)
         if found_product is not None:
             return True
         else:
@@ -52,7 +52,7 @@ def is_valid_product_id(product_id):
 
 # Calculate the final price based on loyalty status
 def calculate_final_price(product_id,is_loyal):
-    product = inventory_system.Product.search_product(product_id)
+    product = inventory_system_copy.Product.search_product(product_id)
     if product is None:
         raise ValueError("Product not found")
 
@@ -252,15 +252,14 @@ def is_valid_loyalty():
 
 
 if __name__ == "__main__":
-    # Build GUI
-    var1 = inventory_system_copy.Transaction_history.add_transaction(transaction_data)
-    """
+    # Build GUI    
     root = GUI.App()
     root.title("Vending Machine Interface")
     root.geometry("400x540")
 
-    
+    """    
     # Example usage
+    var1 = inventory_system_copy.Transaction_history.add_transaction(transaction_data)
     product_id = input("Enter product ID: ")
     card_id = input("Enter loyalty card ID (or press Enter if none): ")
     payment_method = input("Enter payment method (cash/card): ").strip().lower()
@@ -273,4 +272,4 @@ if __name__ == "__main__":
     print(result)
     """
 
-    #root.mainloop()
+    root.mainloop()

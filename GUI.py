@@ -117,17 +117,21 @@ class LoyaltyWindow(tk.Frame):
         displayFrame = Frame(self, bg="white")
         displayFrame.pack(fill="both", expand=True)
     
-        displayText = Label(displayFrame, text="Scan loyalty card", bg='white', fg='black', font=('Arial', 25))
-        displayText.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
         cancelBtn = Button(displayFrame, text='Cancel', bg='#bf0000', fg='white', font=('Arial', 10), command=lambda: 
                            controller.show_frame(MainWindow))
         cancelBtn.place(x=0, y=0)
 
-        skipBtn = Button(displayFrame, text='Skip', bg='#d2d8db', fg='black', font=('Arial', 14), command=lambda: controller.show_frame(ChoosePaymentWindow))
-        skipBtn.pack(pady=2, side='bottom')
-        scanBtn = Button(displayFrame, text='Scan Card', bg='#a5b1b8', fg='black', font=('Arial', 14), command=lambda: 
-                         controller.show_frame(ChoosePaymentWindow) if main.is_valid_loyalty() else None)   # Else show invalid loyalty error
-        scanBtn.pack(side='bottom')
+
+        centreFrame = Frame(displayFrame, bg='white')
+        centreFrame.place(relx=0.5, rely=0.5, anchor='center')
+        scanText = Label(centreFrame, text='Enter loyalty card number:', bg='white', fg='black', font=('Arial', 14))   # Else show invalid loyalty error
+        scanText.pack(pady=5)
+        displayText = Label(centreFrame, textvariable=self.display, bg='white', fg='black', font=('Arial', 25), width=7, relief='sunken')
+        displayText.pack(pady=5)
+        skipBtn = Button(centreFrame, text='Skip', bg='#d2d8db', fg='black', font=('Arial', 14), command=lambda: controller.show_frame(ChoosePaymentWindow))
+        skipBtn.pack(pady=5)
+        
+        
         
         btnFrame = Frame(self, bg="#d2d8db")
         btnFrame.pack(fill="both", expand=True)
@@ -138,33 +142,34 @@ class LoyaltyWindow(tk.Frame):
         for row in range(4):
             btnFrame.grid_rowconfigure(row, weight=1)
     
-        btn1 = Button(btnFrame, text='1', fg="black", bg="#e2e8eb")
+        btn1 = Button(btnFrame, text='1', fg="black", bg="#e2e8eb", command=lambda: self.press(1))
         btn1.grid(row=0, column=0, sticky="nsew")
-        btn2 = Button(btnFrame, text='2', fg="black", bg="#e2e8eb")
+        btn2 = Button(btnFrame, text='2', fg="black", bg="#e2e8eb", command=lambda: self.press(2))
         btn2.grid(row=0, column=1, sticky="nsew")
-        btn3 = Button(btnFrame, text='3', fg="black", bg="#e2e8eb")
+        btn3 = Button(btnFrame, text='3', fg="black", bg="#e2e8eb", command=lambda: self.press(3))
         btn3.grid(row=0, column=2, sticky="nsew")
-        btn4 = Button(btnFrame, text='4', fg="black", bg="#e2e8eb")
+        btn4 = Button(btnFrame, text='4', fg="black", bg="#e2e8eb", command=lambda: self.press(4))
         btn4.grid(row=1, column=0, sticky="nsew")
-        btn5 = Button(btnFrame, text='5', fg="black", bg="#e2e8eb")
+        btn5 = Button(btnFrame, text='5', fg="black", bg="#e2e8eb", command=lambda: self.press(5))
         btn5.grid(row=1, column=1, sticky="nsew")
-        btn6 = Button(btnFrame, text='6', fg="black", bg="#e2e8eb")
+        btn6 = Button(btnFrame, text='6', fg="black", bg="#e2e8eb", command=lambda: self.press(6))
         btn6.grid(row=1, column=2, sticky="nsew")
-        btn7 = Button(btnFrame, text='7', fg="black", bg="#e2e8eb")
+        btn7 = Button(btnFrame, text='7', fg="black", bg="#e2e8eb", command=lambda: self.press(7))
         btn7.grid(row=2, column=0, sticky="nsew")
-        btn8 = Button(btnFrame, text='8', fg="black", bg="#e2e8eb")
+        btn8 = Button(btnFrame, text='8', fg="black", bg="#e2e8eb", command=lambda: self.press(8))
         btn8.grid(row=2, column=1, sticky="nsew")
-        btn9 = Button(btnFrame, text='9', fg="black", bg="#e2e8eb")
+        btn9 = Button(btnFrame, text='9', fg="black", bg="#e2e8eb", command=lambda: self.press(9))
         btn9.grid(row=2, column=2, sticky="nsew")
-        btnDel = Button(btnFrame, text='\u2B8C', fg="white", bg="#bf0000")
+        btnDel = Button(btnFrame, text='\u2B8C', fg="white", bg="#bf0000", command=lambda: self.delete())
         btnDel.grid(row=3, column=0, sticky="nsew")
-        btn0 = Button(btnFrame, text='0', fg="black", bg="#e2e8eb")
+        btn0 = Button(btnFrame, text='0', fg="black", bg="#e2e8eb", command=lambda: self.press(0))
         btn0.grid(row=3, column=1, sticky="nsew")
-        btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430")
+        btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430", command=lambda: 
+                         (self.reset(), controller.show_frame(ChoosePaymentWindow)) if main.is_valid_loyalty() else None)
         btnEnter.grid(row=3, column=2, sticky="nsew")
 
     def press(self, key):    
-        if len(self.text) < 3:
+        if len(self.text) < 5:
             self.text += str(key)
             self.display.set(self.text)
         # else:
@@ -175,6 +180,10 @@ class LoyaltyWindow(tk.Frame):
         if len(self.text) > 0:
             self.text = self.text[:-1]    # Remove end character
         self.display.set(self.text)
+
+    def reset(self):
+            self.text = ""
+            self.display.set(self.text)
 
 
 
@@ -237,6 +246,7 @@ class ChoosePaymentWindow(tk.Frame):
         btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430")
         btnEnter.grid(row=3, column=2, sticky="nsew")
 
+
 class CashPaymentWindow(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
@@ -291,7 +301,7 @@ class CashPaymentWindow(tk.Frame):
         btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430")
         btnEnter.grid(row=3, column=2, sticky="nsew")
 
-        self.after(10000, lambda: self.controller.show_frame(OutcomeWindow))
+        #self.after(10000, lambda: self.controller.show_frame(OutcomeWindow))
 
 
 
@@ -351,7 +361,7 @@ class CardPaymentWindow(tk.Frame):
         btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430")
         btnEnter.grid(row=3, column=2, sticky="nsew")
 
-        self.after(10000, lambda: self.controller.show_frame(OutcomeWindow))
+        #self.after(10000, lambda: self.controller.show_frame(OutcomeWindow))
         
 
 
@@ -408,7 +418,7 @@ class OutcomeWindow(tk.Frame):
         btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430")
         btnEnter.grid(row=3, column=2, sticky="nsew")
 
-        self.after(10000, lambda: self.controller.show_frame(MainWindow))
+        #self.after(10000, lambda: self.controller.show_frame(MainWindow))
 
     def displayOutcome(self):
         if transaction_data['is_valid']:
