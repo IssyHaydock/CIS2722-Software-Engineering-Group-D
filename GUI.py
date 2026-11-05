@@ -26,11 +26,14 @@ class App(tk.Tk):
  
             frame.grid(row = 0, column = 0, sticky ="nsew")
  
-        self.show_frame(ChoosePaymentWindow)
+        self.show_frame(CashPaymentWindow)
 
     def show_frame(self, cont):
         frame = self.frames[cont]
         frame.tkraise()
+
+        if hasattr(frame, "on_show"):
+            frame.on_show()
 
 
 class MainWindow(tk.Frame):
@@ -86,7 +89,7 @@ class MainWindow(tk.Frame):
         btn0 = Button(btnFrame, text='0', fg="black", bg="#e2e8eb", command=lambda: self.press(0))
         btn0.grid(row=3, column=1, sticky="nsew")
         btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430", command=lambda: 
-                          (self.reset(), controller.show_frame(LoyaltyWindow)) if main.set_drink_choice(str(self.text)) else None)
+                        controller.show_frame(LoyaltyWindow) if main.set_drink_choice(str(self.text)) else None)
         btnEnter.grid(row=3, column=2, sticky="nsew")
 
     def press(self, key):    
@@ -100,7 +103,7 @@ class MainWindow(tk.Frame):
             self.text = self.text[:-1]    # Remove end character
         self.display.set(self.text)
 
-    def reset(self):
+    def on_show(self):
         self.text = ""
         self.display.set(self.text)
 
@@ -165,7 +168,7 @@ class LoyaltyWindow(tk.Frame):
         btn0 = Button(btnFrame, text='0', fg="black", bg="#e2e8eb", command=lambda: self.press(0))
         btn0.grid(row=3, column=1, sticky="nsew")
         btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430", command=lambda: 
-                         (self.reset(), controller.show_frame(ChoosePaymentWindow)) if main.is_valid_loyalty() else None)
+                        controller.show_frame(ChoosePaymentWindow) if main.is_valid_loyalty() else None)
         btnEnter.grid(row=3, column=2, sticky="nsew")
 
     def press(self, key):    
@@ -181,7 +184,7 @@ class LoyaltyWindow(tk.Frame):
             self.text = self.text[:-1]    # Remove end character
         self.display.set(self.text)
 
-    def reset(self):
+    def on_show(self):
             self.text = ""
             self.display.set(self.text)
 
@@ -256,20 +259,53 @@ class CashPaymentWindow(tk.Frame):
         super().__init__(parent)
         self.controller = controller
         tk.Frame.__init__(self, parent)
-
-        self.text = ""
     
         self.configure(bg="#d2d8db")
-    
+ 
+        self.total = 0   
         self.display = StringVar()
+        self.display.set(self.text)
         displayFrame = Frame(self, bg="white")
         displayFrame.pack(fill="both", expand=True)
-    
-        displayText = Label(displayFrame, textvariable=self.display, bg='white', fg='black', font=('Arial', 25))
-        displayText.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-        priceLabel = Label(displayFrame, text='Insert Cash\nPrice: £', bg='white', fg='black')
+        cancelBtn = Button(displayFrame, text='Cancel', bg='#bf0000', fg='white', font=('Arial', 10), command=lambda: 
+                        controller.show_frame(MainWindow))
+        cancelBtn.place(x=0, y=0)
+
+
+        centreFrame = Frame(displayFrame, bg='white')
+        centreFrame.place(relx=0.5, rely=1, anchor='s', relwidth=1, relheight=0.85)
+
+        leftFrame = Frame(centreFrame, bg="white")
+        leftFrame.pack(side="left", fill="both", expand=True, padx=10)
+        priceLabel = Label(leftFrame, text='Insert Cash\nPrice: £', bg='white', fg='black', font=('Arial', 14))
         priceLabel.pack()
+        displayText = Label(leftFrame, textvariable=self.display, bg='white', fg='black', font=('Arial', 14))
+        displayText.pack()
+
+        rightFrame = Frame(centreFrame, bg='#d2d8db')
+        rightFrame.pack(side='right', fill='y')
+        for i in range(4):
+            rightFrame.grid_rowconfigure(i, weight=1)
+
+        rightFrame.grid_columnconfigure(0, weight=1)
+
+        val1000 = Button(rightFrame, text="£10", command=lambda: self.increaseAmountPaid(10))
+        val500 = Button(rightFrame, text="£5", command=lambda: self.increaseAmountPaid(5))
+        val200 = Button(rightFrame, text="£2", command=lambda: self.increaseAmountPaid(2))
+        val100 = Button(rightFrame, text="£1", command=lambda: self.increaseAmountPaid(1))
+        val50 = Button(rightFrame, text="50p", command=lambda: self.increaseAmountPaid(0.50))
+        val20 = Button(rightFrame, text="20p", command=lambda: self.increaseAmountPaid(0.20))
+        val10 = Button(rightFrame, text="10p", command=lambda: self.increaseAmountPaid(0.10))
+
+        val1000.grid(row=0, column=0, sticky="nsew")
+        val500.grid(row=1, column=0, sticky="nsew")
+        val200.grid(row=2, column=0, sticky="nsew")
+        val100.grid(row=3, column=0, sticky="nsew")
+        val50.grid(row=4, column=0, sticky="nsew")
+        val20.grid(row=5, column=0, sticky="nsew")
+        val10.grid(row=6, column=0, sticky="nsew")
+    
 
         btnFrame = Frame(self, bg="#d2d8db")
         btnFrame.pack(fill="both", expand=True)
@@ -307,6 +343,15 @@ class CashPaymentWindow(tk.Frame):
 
         #self.after(10000, lambda: self.controller.show_frame(OutcomeWindow))
 
+    def increaseAmountPaid(self, value):
+        self.total += value
+        self.text = "Amount Paid: £" + f"{self.total:.2f}"
+        self.display.set(self.text)
+        # Validate amount on each call -----------------------------------------------------------------------------------------------------------------------------
+
+    def on_show(self):
+        self.text = "Amount Paid: £0.00"
+        self.display.set(self.text)
 
 
 
