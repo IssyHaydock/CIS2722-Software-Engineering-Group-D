@@ -142,7 +142,7 @@ class Transaction_history:
         }
 
     @classmethod
-    def add_transaction(cls, list of transaction_info, filename="transaction_history.json"):
+    def add_transaction(cls, transaction_info, filename="transaction_history.json"):
         list_of_transaction_info = transaction_info
         product_id = list_of_transaction_info.get("product_id", "")
         price_paid = list_of_transaction_info.get("price_paid", "")
@@ -150,10 +150,10 @@ class Transaction_history:
         is_valid = list_of_transaction_info.get("is_valid", "")
         payment_choice = list_of_transaction_info.get("payment_choice", "")
 
-        price_paid = str(price_paid).strip()
+        price_paid = float(price_paid)
 
-        if not price_paid.isdigit():
-            raise ValueError("Price_paid needs to be entered as a string")
+        if not isinstance(price_paid, (float)):
+            raise ValueError("Price_paid needs to be entered as a number")
         if not isinstance(is_loyal, bool):
             raise ValueError("is_loyal needs to be True or False")
         if not isinstance(is_valid, bool):
@@ -233,3 +233,6 @@ if __name__ == "__main__":
 
     test_remove = Product.remove_product("001")
 """
+
+test_list
+ transaction = Transaction_history.add_transaction("001", "2.75", True, True, "card")
