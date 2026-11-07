@@ -403,12 +403,14 @@ class CashPaymentWindow(tk.Frame):
         self.start_timer()
 
     def start_timer(self):
+        self.reset_timer()
         self.timer = self.after(120000, 
                         lambda: self.controller.show_frame(OutcomeWindow))
 
     def reset_timer(self):
-        if self.timer:
+        if self.timer is not None:
             self.after_cancel(self.timer)
+            self.timer = None
 
     def refund(self):
         refunded_amount = self.total
