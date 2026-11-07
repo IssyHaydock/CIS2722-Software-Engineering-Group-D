@@ -362,7 +362,7 @@ class CashPaymentWindow(tk.Frame):
 
     def increaseAmountPaid(self, value):
         self.total += value
-        self.text = "Amount Paid: £" + f"{self.total:.2f}"
+        self.text = "Amount Paid: £" + f"{self.total / 100:.2f}"
         self.display.set(self.text)
         # Validate amount on each call -----------------------------------------------------------------------------------------------------------------------------
 
