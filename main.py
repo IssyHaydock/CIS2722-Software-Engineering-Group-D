@@ -260,6 +260,10 @@ def is_valid_loyalty(card_id):
     transaction_data["is_loyal"] = False
     return False
 
+def save_transaction():
+    inventory_system_copy.Transaction_history.add_transaction(
+        transaction_data.copy()
+    )
 
 
 if __name__ == "__main__":
