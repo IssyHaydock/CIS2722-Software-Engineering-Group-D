@@ -26,7 +26,7 @@ class App(tk.Tk):
  
             frame.grid(row = 0, column = 0, sticky ="nsew")
  
-        self.show_frame(CashPaymentWindow)
+        self.show_frame(CardPaymentWindow)
 
     def show_frame(self, cont):
         frame = self.frames[cont]
@@ -382,20 +382,27 @@ class CardPaymentWindow(tk.Frame):
         super().__init__(parent)
         self.controller = controller
         tk.Frame.__init__(self, parent)
-
-        self.text = ""
     
         self.configure(bg="#d2d8db")
-    
-        self.display = StringVar()
+
+        self.error = ""
+        self.errorDisplay = StringVar()
         displayFrame = Frame(self, bg="white")
         displayFrame.pack(fill="both", expand=True)
-    
-        displayText = Label(displayFrame, textvariable=self.display, bg='white', fg='black', font=('Arial', 25))
-        displayText.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-        priceLabel = Label(displayFrame, text='Tap/Insert card to pay\nPrice: £', bg='white', fg='black')
+        cancelBtn = Button(displayFrame, text='Cancel', bg='#bf0000', fg='white', font=('Arial', 10), command=lambda: 
+                        controller.show_frame(MainWindow))
+        cancelBtn.place(x=0, y=0)
+
+
+        centreFrame = Frame(displayFrame, bg='white')
+        centreFrame.place(relx=0.5, rely=1, anchor='s', relwidth=1, relheight=0.6)
+        priceLabel = Label(centreFrame, text='Tap/Insert card to pay\nPrice: £', bg='white', fg='black', font=('Arial', 14))
         priceLabel.pack()
+        errorTextLabel = Label(centreFrame, textvariable=self.errorDisplay, bg='white', fg='#bf0000', font=('Arial', 14))
+        errorTextLabel.pack(pady=5)
+        payBtn = Button(centreFrame, text='Pay', bg='#d2d8db', fg='black', font=('Arial', 14))  # if valid card payment show OutcomeWindow, else self.show_error()
+        payBtn.pack()
 
         btnFrame = Frame(self, bg="#d2d8db")
         btnFrame.pack(fill="both", expand=True)
@@ -432,6 +439,10 @@ class CardPaymentWindow(tk.Frame):
         btnEnter.grid(row=3, column=2, sticky="nsew")
 
         #self.after(10000, lambda: self.controller.show_frame(OutcomeWindow))
+    
+    def show_error(self):
+        self.error = "Error: Insufficient funds"
+        self.errorDisplay.set(self.error)
         
 
 
