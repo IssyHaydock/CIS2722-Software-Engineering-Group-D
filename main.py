@@ -177,44 +177,50 @@ def cancel_transaction(payment_method, cash_inserted):
         return "Invalid payment method."
 
 # Process purchase
-def process_purchase(product_id, card_id, payment_method,cash_inserted=0):
-    # Validate product ID
+def process_purchase(cash_inserted=0):
+    product_id = transaction_data["product_id"]
+    payment_method = transaction_data["payment_choice"]
+    final_price = transaction_data["final_price_pence"]
+
+    transaction_data["is_valid"] = False
+    transaction_data["price_paid"] = 0.0
+
     if not is_valid_product_id(product_id):
-        return "Invalid product ID."
-
-    # Validate loyalty status
-    is_loyal = validate_loyalty_status(card_id)
-
-    # Calculate final price
-    final_price_pence = calculate_final_price(product_id, is_loyal)
-
+        return "invalid_product"
 
     if payment_method == "cash":
-        # Validate cash payment
-        if not validate_cash_payment(cash_inserted, final_price_pence):
-            return "Insufficient cash provided."
 
-        # Calculate change needed
-        change_needed = calculate_change(cash_inserted, final_price_pence)
+        if not validate_cash_payment(cash_inserted, final_price):
+            return "insufficient_cash"
 
-        # Check if the machine can give change
-        can_change, coins_to_return = can_give_change(change_needed, available_change)
-        if not can_change:
-            return "Cannot provide change for this transaction."
+        change_needed = calculate_change(cash_inserted, final_price)
 
-        return f"Purchase successful. Change to return: {coins_to_return}"
+        can_return, coins_used = can_give_change(
+            change_needed, available_change
+        )
+
+        if not can_return:
+            return "cannot_return_change"
+
+        for coin, quantity in coins_used.items():
+            available_change[coin] -= quantity
+
+        transaction_data["price_paid"] = final_price / 100
+        transaction_data["is_valid"] = True
+
+        return "success"
 
     elif payment_method == "card":
-        # Validate card payment
+
         if not validate_card_payment():
-            return "Card payment declined."
+            return "card_declined"
 
-        return "Purchase successful with card payment."
+        transaction_data["price_paid"] = final_price / 100
+        transaction_data["is_valid"] = True
 
-    else:
-        return "Invalid payment method."
-    # Add any additional logic for handling the purchase, updating inventory, etc. after quantity added
+        return "success"
 
+    return "invalid_payment_method"
 
 
 def set_drink_choice(choice):
