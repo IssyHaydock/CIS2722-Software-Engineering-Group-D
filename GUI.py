@@ -367,8 +367,10 @@ class CashPaymentWindow(tk.Frame):
         # Validate amount on each call -----------------------------------------------------------------------------------------------------------------------------
 
     def on_show(self):
+        self.total = 0
         self.text = "Amount Paid: £0.00"
         self.display.set(self.text)
+        self.errorDisplay.set("")
 
         self.start_timer()
 
