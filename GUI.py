@@ -216,10 +216,10 @@ class ChoosePaymentWindow(tk.Frame):
         centreFrame = Frame(displayFrame, bg='white')
         centreFrame.place(relx=0.5, rely=0.5, anchor='center')
         cashBtn = Button(centreFrame, text='Cash', fg='black', bg='#d2d8db', width=12, height=6,
-                        font=('Arial', 14), command=lambda: controller.show_frame(CashPaymentWindow))
+                        font=('Arial', 14), command=lambda: [main.set_payment_choice("cash"), controller.show_frame(CashPaymentWindow)])
         cashBtn.pack(side='left', padx=20)
         cardBtn = Button(centreFrame, text='Card', fg='black', bg='#d2d8db', width=12, height=6,
-                        font=('Arial', 14), command=lambda: controller.show_frame(CardPaymentWindow))
+                        font=('Arial', 14), command=lambda: [main.set_payment_choice("card"), controller.show_frame(CardPaymentWindow)])
         cardBtn.pack(side='right', padx=20)
 
 
