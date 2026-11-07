@@ -74,6 +74,13 @@ def skip_loyalty():
     transaction_data["is_loyal"] = False
     calculate_final_price()
 
+def set_payment_choice(choice):
+    if choice not in ["cash", "card"]:
+        return False
+
+    transaction_data["payment_choice"] = choice
+    return True
+
 
 # Validate cash value
 def is_valid_cash_value(cash_value):
