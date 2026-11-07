@@ -135,7 +135,7 @@ class LoyaltyWindow(tk.Frame):
         scanText.pack(pady=5)
         displayText = Label(centreFrame, textvariable=self.display, bg='white', fg='black', font=('Arial', 25), width=7, relief='sunken')
         displayText.pack(pady=5)
-        skipBtn = Button(centreFrame, text='Skip', bg='#d2d8db', fg='black', font=('Arial', 14), command=lambda: controller.show_frame(ChoosePaymentWindow))
+        skipBtn = Button(centreFrame, text='Skip', bg='#d2d8db', fg='black', font=('Arial', 14), command=lambda: [main.skip_loyalty(), controller.show_frame(ChoosePaymentWindow)])
         skipBtn.pack(pady=5)
         
         
