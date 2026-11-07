@@ -475,8 +475,8 @@ class CardPaymentWindow(tk.Frame):
 
         centreFrame = Frame(displayFrame, bg='white')
         centreFrame.place(relx=0.5, rely=1, anchor='s', relwidth=1, relheight=0.6)
-        priceLabel = Label(centreFrame, text='Tap/Insert card to pay\nPrice: £', bg='white', fg='black', font=('Arial', 14))
-        priceLabel.pack()
+        self.priceLabel = Label(centreFrame, text='Tap/Insert card to pay\nPrice: £', bg='white', fg='black', font=('Arial', 14))
+        self.priceLabel.pack()
         errorTextLabel = Label(centreFrame, textvariable=self.errorDisplay, bg='white', fg='#bf0000', font=('Arial', 14))
         errorTextLabel.pack(pady=5)
         payBtn = Button(centreFrame, text='Pay', bg='#d2d8db', fg='black', font=('Arial', 14), command=self.pay_by_card)  # if valid card payment show OutcomeWindow, else self.show_error()
@@ -535,6 +535,11 @@ class CardPaymentWindow(tk.Frame):
         self.controller.show_frame(OutcomeWindow)
 
     def on_show(self):
+        price = main.transaction_data["final_price_pence"] / 100
+        self.priceLabel.config(
+            text=f"Tap/Insert card to pay\nPrice: £{price:.2f}"
+        )
+
         self.start_timer()
 
     def start_timer(self):
