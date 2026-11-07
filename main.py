@@ -38,20 +38,23 @@ def is_valid_product_id(product_id):
 
 
 # Calculate the final price based on loyalty status
-def calculate_final_price(product_id,is_loyal):
-    product_id = transaction_data['product_id']
+def calculate_final_price():
+    product_id = transaction_data["product_id"]
+
     product = inventory_system_copy.Product.search_product(product_id)
+
     if product is None:
         raise ValueError("Product not found")
-    
-    price_pence = round(product.price * 100)  # Convert to pence
-    
-    if transaction_data['is_loyal']:
-        final_price = round(price_pence * 0.9)  # Apply 10% discount
-    else:
-        final_price = price_pence  # No discount
 
-    transaction_data["final_price_pence"] = final_price  # Store the final price in transaction_data
+    price_pence = round(product.product_price * 100)
+
+    if transaction_data["is_loyal"]:
+        final_price = round(price_pence * 0.90)
+    else:
+        final_price = price_pence
+
+    transaction_data["final_price_pence"] = final_price
+
     return final_price
 
 
