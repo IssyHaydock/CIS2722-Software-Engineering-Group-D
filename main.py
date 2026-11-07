@@ -271,6 +271,7 @@ def is_valid_loyalty(card_id):
         return True
     
     transaction_data["is_loyal"] = False
+    transaction_data["final_price_pence"] = 0
     return False
 
 def save_transaction():
