@@ -277,7 +277,7 @@ class CashPaymentWindow(tk.Frame):
         displayFrame.pack(fill="both", expand=True)
 
         cancelBtn = Button(displayFrame, text='Cancel', bg='#bf0000', fg='white', font=('Arial', 10), command=lambda: 
-                        controller.show_frame(MainWindow))
+                        self.refund_and_exit())
         cancelBtn.place(x=0, y=0)
 
 
