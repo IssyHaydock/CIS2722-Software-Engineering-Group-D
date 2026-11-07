@@ -366,6 +366,25 @@ class CashPaymentWindow(tk.Frame):
         self.display.set(self.text)
         # Validate amount on each call -----------------------------------------------------------------------------------------------------------------------------
 
+    def confirm_payment(self):
+        self.reset_timer()
+
+        result = main.process_purchase(self.total)
+
+        if result == "success":
+            self.return_change()
+            main.save_transaction()
+
+        elif result == "cannot_return_change":
+            self.cannot_return_change()
+            main.save_transaction()
+
+        elif result == "insufficient_cash":
+            self.refund()
+            main.save_transaction()
+            
+        self.controller.show_frame(OutcomeWindow)
+            
     def on_show(self):
         self.total = 0
         self.text = "Amount Paid: £0.00"
