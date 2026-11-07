@@ -309,13 +309,13 @@ class CashPaymentWindow(tk.Frame):
 
         rightFrame.grid_columnconfigure(0, weight=1)
 
-        val1000 = Button(rightFrame, text="£10", command=lambda: self.increaseAmountPaid(10))
-        val500 = Button(rightFrame, text="£5", command=lambda: self.increaseAmountPaid(5))
-        val200 = Button(rightFrame, text="£2", command=lambda: self.increaseAmountPaid(2))
-        val100 = Button(rightFrame, text="£1", command=lambda: self.increaseAmountPaid(1))
-        val50 = Button(rightFrame, text="50p", command=lambda: self.increaseAmountPaid(0.50))
-        val20 = Button(rightFrame, text="20p", command=lambda: self.increaseAmountPaid(0.20))
-        val10 = Button(rightFrame, text="10p", command=lambda: self.increaseAmountPaid(0.10))
+        val1000 = Button(rightFrame, text="£10", command=lambda: self.increaseAmountPaid(1000))
+        val500 = Button(rightFrame, text="£5", command=lambda: self.increaseAmountPaid(500))
+        val200 = Button(rightFrame, text="£2", command=lambda: self.increaseAmountPaid(200))
+        val100 = Button(rightFrame, text="£1", command=lambda: self.increaseAmountPaid(100))
+        val50 = Button(rightFrame, text="50p", command=lambda: self.increaseAmountPaid(50))
+        val20 = Button(rightFrame, text="20p", command=lambda: self.increaseAmountPaid(20))
+        val10 = Button(rightFrame, text="10p", command=lambda: self.increaseAmountPaid(10))
 
         val1000.grid(row=0, column=0, sticky="nsew")
         val500.grid(row=1, column=0, sticky="nsew")
