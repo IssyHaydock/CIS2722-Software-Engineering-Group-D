@@ -150,14 +150,17 @@ def can_give_change(change_needed, available_change):
 
 # Validate card payment
 def validate_card_payment():
-    bank_response = input("Enter bank response (approved/declined): ").strip().lower()
-    if bank_response == "approved":
-        return True
-    elif bank_response == "declined":
-        return False
-    else:
-        print("Invalid bank response. Please enter 'approved' or 'declined'.")
-        return validate_card_payment()  #Ask for valid input
+    while True:
+        answer = input("Was card payment approved by bank? (y/n): ").strip().lower()
+
+        if answer == "y":
+            return True
+
+        elif answer == "n":
+            return False
+
+        else:
+            print("Please enter y or n.")
 
 # Cancel transaction
 def cancel_transaction(payment_method, cash_inserted):
