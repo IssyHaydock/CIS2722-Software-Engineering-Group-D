@@ -296,7 +296,7 @@ class CashPaymentWindow(tk.Frame):
         refundBtn = Button(displayBtnFrame, text='Refund', bg='#d2d8db', fg='black', font=('Arial', 14),
                            command=lambda: self.refund_and_exit())
         refundBtn.pack(side='left', pady=5)
-        confirmBtn = Button(displayBtnFrame, text='Confirm', bg='#d2d8db', fg='black', font=('Arial', 14)) # show 'Insufficient amount inserted' OR (show transaction successful window AND reset_timer())
+        confirmBtn = Button(displayBtnFrame, text='Confirm', bg='#d2d8db', fg='black', font=('Arial', 14), command=self.confirm_payment()) # show 'Insufficient amount inserted' OR (show transaction successful window AND reset_timer())
         confirmBtn.pack(side='right', pady=5)
 
         errorTextLabel = Label(leftFrame, textvariable=self.errorDisplay, bg='white', fg='#bf0000', font=('Arial', 14))
