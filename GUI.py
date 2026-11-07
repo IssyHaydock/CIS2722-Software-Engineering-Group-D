@@ -383,11 +383,15 @@ class CashPaymentWindow(tk.Frame):
             self.after_cancel(self.timer)
 
     def refund(self):
+        refunded_amount = self.total
+        self.total = 0
+
         self.text = "Amount Paid: £0.00"
         self.display.set(self.text)
 
-        self.error = f"£{self.total:.2f} Refunded"
-        self.errorDisplay.set(self.error)
+        self.errorDisplay.set(
+            f"£{refunded_amount / 100:.2f} refunded"
+    )
 
     def return_change(self):
         self.error = f"£ Change returned" # £ Total - price
