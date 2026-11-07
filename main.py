@@ -12,7 +12,7 @@ transaction_data = {
         'payment_choice': "card"
 }
 
-valid_loyalty_cards = ["L001", "L002", "L003"]
+valid_loyalty_cards = ["10001", "10002", "10003", "10004", "10005"]
 
 available_change = {
     200: 5,   # £2 coins
