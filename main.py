@@ -294,19 +294,5 @@ if __name__ == "__main__":
     root.title("Vending Machine Interface")
     root.geometry("400x540")
 
-    """    
-    # Example usage
-    var1 = inventory_system_copy.Transaction_history.add_transaction(transaction_data)
-    product_id = input("Enter product ID: ")
-    card_id = input("Enter loyalty card ID (or press Enter if none): ")
-    payment_method = input("Enter payment method (cash/card): ").strip().lower()
-
-    cash_inserted = 0
-    if payment_method == "cash":
-        cash_inserted = int(input("Enter cash amount in pence: "))
-
-    result = process_purchase(product_id, card_id, payment_method, cash_inserted)
-    print(result)
-    """
 
     root.mainloop()
