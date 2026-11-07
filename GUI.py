@@ -26,7 +26,7 @@ class App(tk.Tk):
  
             frame.grid(row = 0, column = 0, sticky ="nsew")
  
-        self.show_frame(CardPaymentWindow)
+        self.show_frame(MainWindow)
 
     def show_frame(self, cont):
         frame = self.frames[cont]
@@ -52,9 +52,13 @@ class MainWindow(tk.Frame):
     
         admin_btn = Button(displayFrame, text='Admin', fg='black', bg='#a5b1b8', command=lambda: controller.show_frame(AdminWindow))
         admin_btn.place(x=0, y=0)
-    
-        displayText = Label(displayFrame, textvariable=self.display, bg='white', fg='black', font=('Arial', 25))
-        displayText.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+        centreFrame = Frame(displayFrame, bg='white')
+        centreFrame.place(relx=0.5, rely=0.5, anchor='center')
+        selectLabel = Label(centreFrame, text='Select Drink:', bg='white', fg='black', font=('Arial', 14))
+        selectLabel.pack()
+        displayText = Label(centreFrame, textvariable=self.display, bg='white', fg='black', font=('Arial', 25), width=4, relief='sunken')
+        displayText.pack(pady=2)
         
     
         btnFrame = Frame(self, bg="#d2d8db")
@@ -258,6 +262,7 @@ class CashPaymentWindow(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
+        self.timer = None
         tk.Frame.__init__(self, parent)
     
         self.configure(bg="#d2d8db")
@@ -291,7 +296,7 @@ class CashPaymentWindow(tk.Frame):
         refundBtn = Button(displayBtnFrame, text='Refund', bg='#d2d8db', fg='black', font=('Arial', 14),
                            command=lambda: self.refund())
         refundBtn.pack(side='left', pady=5)
-        confirmBtn = Button(displayBtnFrame, text='Confirm', bg='#d2d8db', fg='black', font=('Arial', 14)) # show 'Insufficient amount inserted' or show transaction successful window
+        confirmBtn = Button(displayBtnFrame, text='Confirm', bg='#d2d8db', fg='black', font=('Arial', 14)) # show 'Insufficient amount inserted' OR (show transaction successful window AND reset_timer())
         confirmBtn.pack(side='right', pady=5)
 
         errorTextLabel = Label(leftFrame, textvariable=self.errorDisplay, bg='white', fg='#bf0000', font=('Arial', 14))
@@ -355,8 +360,6 @@ class CashPaymentWindow(tk.Frame):
         btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430")
         btnEnter.grid(row=3, column=2, sticky="nsew")
 
-        #self.after(10000, lambda: self.controller.show_frame(OutcomeWindow))
-
     def increaseAmountPaid(self, value):
         self.total += value
         self.text = "Amount Paid: £" + f"{self.total:.2f}"
@@ -366,6 +369,16 @@ class CashPaymentWindow(tk.Frame):
     def on_show(self):
         self.text = "Amount Paid: £0.00"
         self.display.set(self.text)
+
+        self.start_timer()
+
+    def start_timer(self):
+        self.timer = self.after(120000, 
+                        lambda: self.controller.show_frame(OutcomeWindow))
+
+    def reset_timer(self):
+        if self.timer:
+            self.after_cancel(self.timer)
 
     def refund(self):
         self.text = "Amount Paid: £0.00"
@@ -381,6 +394,7 @@ class CardPaymentWindow(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
+        self.timer = None
         tk.Frame.__init__(self, parent)
     
         self.configure(bg="#d2d8db")
@@ -438,7 +452,17 @@ class CardPaymentWindow(tk.Frame):
         btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430")
         btnEnter.grid(row=3, column=2, sticky="nsew")
 
-        #self.after(10000, lambda: self.controller.show_frame(OutcomeWindow))
+
+    def on_show(self):
+        self.start_timer()
+
+    def start_timer(self):
+        self.timer = self.after(120000, 
+                    lambda: self.controller.show_frame(OutcomeWindow))
+    
+    def reset_timer(self):
+        if self.timer:
+            self.after_cancel(self.timer)
     
     def show_error(self):
         self.error = "Error: Insufficient funds"
@@ -450,6 +474,7 @@ class OutcomeWindow(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
+        self.timer = None
         tk.Frame.__init__(self, parent)
 
         self.text = ""
@@ -499,7 +524,16 @@ class OutcomeWindow(tk.Frame):
         btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430")
         btnEnter.grid(row=3, column=2, sticky="nsew")
 
-        #self.after(10000, lambda: self.controller.show_frame(MainWindow))
+    def on_show(self):
+        self.start_timer()
+    
+    def start_timer(self):
+        self.timer = self.after(5000, 
+                        lambda: self.controller.show_frame(MainWindow))
+        
+    def reset_timer(self):
+        if self.timer:
+            self.after_cancel(self.timer)
 
     def displayOutcome(self):
         if transaction_data['is_valid']:
