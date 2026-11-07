@@ -232,15 +232,14 @@ def is_available(entry):
         else:
             print("Invalid input. Please enter 'y' or 'n'.")    
 
-def is_valid_loyalty():
-    is_valid = input("Is loyalty card valid: ").lower()
-    if is_valid == 'y':
-        calculate_final_price(transaction_data['product_id'], True)
-        transaction_data['is_loyal'] = True
+def is_valid_loyalty(card_id):
+    if validate_loyalty_status(card_id):
+        transaction_data["is_loyal"] = True
+        calculate_final_price()
         return True
-    else:
-        calculate_final_price(transaction_data['product_id'], False)
-        return False 
+    
+    transaction_data["is_loyal"] = False
+    return False
 
 
 
