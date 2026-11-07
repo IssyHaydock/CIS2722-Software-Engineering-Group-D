@@ -1,3 +1,4 @@
+from unittest import result
 import main
 from main import *
 import tkinter as tk
@@ -472,7 +473,7 @@ class CardPaymentWindow(tk.Frame):
         priceLabel.pack()
         errorTextLabel = Label(centreFrame, textvariable=self.errorDisplay, bg='white', fg='#bf0000', font=('Arial', 14))
         errorTextLabel.pack(pady=5)
-        payBtn = Button(centreFrame, text='Pay', bg='#d2d8db', fg='black', font=('Arial', 14))  # if valid card payment show OutcomeWindow, else self.show_error()
+        payBtn = Button(centreFrame, text='Pay', bg='#d2d8db', fg='black', font=('Arial', 14), command=self.pay_by_card)  # if valid card payment show OutcomeWindow, else self.show_error()
         payBtn.pack()
 
         btnFrame = Frame(self, bg="#d2d8db")
@@ -509,6 +510,15 @@ class CardPaymentWindow(tk.Frame):
         btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430")
         btnEnter.grid(row=3, column=2, sticky="nsew")
 
+    def pay_by_card(self):
+        self.reset_timer()
+
+        result = main.process_purchase()
+
+        if result in ["success", "card_declined"]:
+            main.save_transaction()
+
+        self.controller.show_frame(OutcomeWindow)
 
     def on_show(self):
         self.start_timer()
