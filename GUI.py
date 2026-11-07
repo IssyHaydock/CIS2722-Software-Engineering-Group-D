@@ -109,6 +109,7 @@ class MainWindow(tk.Frame):
         self.display.set(self.text)
 
     def on_show(self):
+        main.reset_transaction()
         self.text = ""
         self.display.set(self.text)
 
