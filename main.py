@@ -265,6 +265,15 @@ def save_transaction():
         transaction_data.copy()
     )
 
+def reset_transaction():
+    transaction_data.update({
+        "product_id": "",
+        "price_paid": 0.0,
+        "is_loyal": False,
+        "is_valid": False,
+        "payment_choice": "",
+        "final_price_pence": 0
+    })
 
 if __name__ == "__main__":
     # Build GUI    
