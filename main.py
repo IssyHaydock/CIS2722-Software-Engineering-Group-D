@@ -66,6 +66,12 @@ def validate_loyalty_status(card_id):
     else:
         return False
 
+# Skip loyalty validation
+def skip_loyalty():
+    transaction_data["is_loyal"] = False
+    calculate_final_price()
+
+
 # Validate cash value
 def is_valid_cash_value(cash_value):
     if type(cash_value) is not int:
