@@ -387,6 +387,14 @@ class CashPaymentWindow(tk.Frame):
         self.error = f"£{self.total:.2f} Refunded"
         self.errorDisplay.set(self.error)
 
+    def return_change(self):
+        self.error = f"£ Change returned" # £ Total - price
+        self.errorDisplay.set(self.error)
+
+    def cannot_return_change(self):
+        self.error = f"Insufficient change available\n£{self.total:.2f} Refunded" # £ Total - price
+        self.errorDisplay.set(self.error)
+
 
 
 
