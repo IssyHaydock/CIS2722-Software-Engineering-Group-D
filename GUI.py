@@ -540,8 +540,9 @@ class CardPaymentWindow(tk.Frame):
         )
     
     def reset_timer(self):
-        if self.timer:
+        if self.timer is not None:
             self.after_cancel(self.timer)
+            self.timer = None
     
     def show_error(self):
         self.error = "Error: Insufficient funds"
