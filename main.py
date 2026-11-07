@@ -197,6 +197,9 @@ def process_purchase(cash_inserted=0):
 
     if not is_valid_product_id(product_id):
         return "invalid_product"
+    
+    if final_price <= 0:
+        return "invalid_final_price"
 
     if payment_method == "cash":
 
