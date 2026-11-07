@@ -9,7 +9,8 @@ transaction_data = {
         'price_paid': 1.50,
         'is_loyal': False,
         'is_valid': False,
-        'payment_choice': "card"
+        'payment_choice': "card",
+        'final_price_pence': 0
 }
 
 valid_loyalty_cards = ["10001", "10002", "10003", "10004", "10005"]
@@ -38,18 +39,21 @@ def is_valid_product_id(product_id):
 
 # Calculate the final price based on loyalty status
 def calculate_final_price(product_id,is_loyal):
+    product_id = transaction_data['product_id']
     product = inventory_system_copy.Product.search_product(product_id)
     if product is None:
         raise ValueError("Product not found")
-
-    price_pence = round(product.product_price * 100)
-
-    if is_loyal:
-        final_price = round(price_pence * 0.9)  # Apply 10% discount for loyal customers
+    
+    price_pence = round(product.price * 100)  # Convert to pence
+    
+    if transaction_data['is_loyal']:
+        final_price = round(price_pence * 0.9)  # Apply 10% discount
     else:
-        final_price = price_pence
+        final_price = price_pence  # No discount
 
+    transaction_data["final_price_pence"] = final_price  # Store the final price in transaction_data
     return final_price
+
 
 # Test cases
 # print(calculate_final_price("001", True))  # Example usage for a loyal customer
