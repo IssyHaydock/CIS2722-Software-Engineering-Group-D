@@ -172,7 +172,7 @@ class LoyaltyWindow(tk.Frame):
         btn0 = Button(btnFrame, text='0', fg="black", bg="#e2e8eb", command=lambda: self.press(0))
         btn0.grid(row=3, column=1, sticky="nsew")
         btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430", command=lambda: 
-                        controller.show_frame(ChoosePaymentWindow) if main.is_valid_loyalty() else None)
+                        controller.show_frame(ChoosePaymentWindow) if main.is_valid_loyalty(self.text) else None)
         btnEnter.grid(row=3, column=2, sticky="nsew")
 
     def press(self, key):    
