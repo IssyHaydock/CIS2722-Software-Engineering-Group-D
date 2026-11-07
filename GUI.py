@@ -288,8 +288,8 @@ class CashPaymentWindow(tk.Frame):
 
         leftFrame = Frame(centreFrame, bg="white")
         leftFrame.pack(side="left", fill="both", expand=True, padx=10)
-        priceLabel = Label(leftFrame, text='Insert Cash\nPrice: £', bg='white', fg='black', font=('Arial', 14))
-        priceLabel.pack()
+        self.priceLabel = Label(leftFrame, text='Insert Cash\nPrice: £', bg='white', fg='black', font=('Arial', 14))
+        self.priceLabel.pack()
         displayText = Label(leftFrame, textvariable=self.display, bg='white', fg='black', font=('Arial', 14))
         displayText.pack()
 
@@ -401,6 +401,11 @@ class CashPaymentWindow(tk.Frame):
         self.text = "Amount Paid: £0.00"
         self.display.set(self.text)
         self.errorDisplay.set("")
+
+        price = main.transaction_data["final_price_pence"] / 100
+        self.priceLabel.config(
+            text=f"Insert Cash\nPrice: £{price:.2f}"
+    )
 
         self.start_timer()
 
@@ -617,7 +622,7 @@ class OutcomeWindow(tk.Frame):
             self.after_cancel(self.timer)
 
     def displayOutcome(self):
-        if transaction_data['is_valid']:
+        if main.transaction_data['is_valid']:
             self.text = "Transaction successful"
             self.display.set(self.text)
         else:
