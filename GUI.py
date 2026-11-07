@@ -390,7 +390,7 @@ class CashPaymentWindow(tk.Frame):
         self.refund()
 
         main.transaction_data["is_valid"] = False
-        main.transaction_data["price_paid_pence"] = 0.0
+        main.transaction_data["price_paid"] = 0.0
 
         self.controller.show_frame(OutcomeWindow)
             
