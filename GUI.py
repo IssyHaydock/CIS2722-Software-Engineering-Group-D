@@ -263,8 +263,11 @@ class CashPaymentWindow(tk.Frame):
         self.configure(bg="#d2d8db")
  
         self.total = 0   
+        self.text = ""
         self.display = StringVar()
         self.display.set(self.text)
+        self.error = ""
+        self.errorDisplay = StringVar()
         displayFrame = Frame(self, bg="white")
         displayFrame.pack(fill="both", expand=True)
 
@@ -282,6 +285,17 @@ class CashPaymentWindow(tk.Frame):
         priceLabel.pack()
         displayText = Label(leftFrame, textvariable=self.display, bg='white', fg='black', font=('Arial', 14))
         displayText.pack()
+
+        displayBtnFrame = Frame(leftFrame, bg='white')
+        displayBtnFrame.place(relx=0.5, rely=1, anchor='s', relwidth=0.5, relheight=0.4)
+        refundBtn = Button(displayBtnFrame, text='Refund', bg='#d2d8db', fg='black', font=('Arial', 14),
+                           command=lambda: self.refund())
+        refundBtn.pack(side='left', pady=5)
+        confirmBtn = Button(displayBtnFrame, text='Confirm', bg='#d2d8db', fg='black', font=('Arial', 14)) # show 'Insufficient amount inserted' or show transaction successful window
+        confirmBtn.pack(side='right', pady=5)
+
+        errorTextLabel = Label(leftFrame, textvariable=self.errorDisplay, bg='white', fg='#bf0000', font=('Arial', 14))
+        errorTextLabel.pack(pady=2)
 
         rightFrame = Frame(centreFrame, bg='#d2d8db')
         rightFrame.pack(side='right', fill='y')
@@ -352,6 +366,13 @@ class CashPaymentWindow(tk.Frame):
     def on_show(self):
         self.text = "Amount Paid: £0.00"
         self.display.set(self.text)
+
+    def refund(self):
+        self.text = "Amount Paid: £0.00"
+        self.display.set(self.text)
+
+        self.error = f"£{self.total:.2f} Refunded"
+        self.errorDisplay.set(self.error)
 
 
 
