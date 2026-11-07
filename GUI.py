@@ -619,12 +619,14 @@ class OutcomeWindow(tk.Frame):
         self.start_timer()
     
     def start_timer(self):
+        self.reset_timer()
         self.timer = self.after(5000, 
                         lambda: self.controller.show_frame(MainWindow))
         
     def reset_timer(self):
-        if self.timer:
+        if self.timer is not None:
             self.after_cancel(self.timer)
+            self.timer = None
 
     def displayOutcome(self):
         if main.transaction_data['is_valid']:
