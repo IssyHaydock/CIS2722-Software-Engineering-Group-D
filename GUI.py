@@ -521,12 +521,23 @@ class CardPaymentWindow(tk.Frame):
 
         self.controller.show_frame(OutcomeWindow)
 
+    def cancel_card_payment(self):
+        self.reset_timer()
+
+        main.transaction_data["is_valid"] = False
+        main.transaction_data["price_paid"] = 0.0
+
+        self.controller.show_frame(OutcomeWindow)
+
     def on_show(self):
         self.start_timer()
 
     def start_timer(self):
-        self.timer = self.after(120000, 
-                    lambda: self.controller.show_frame(OutcomeWindow))
+        self.reset_timer()
+        self.timer = self.after(
+            120000,
+            self.cancel_card_payment
+        )
     
     def reset_timer(self):
         if self.timer:
