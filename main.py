@@ -5,11 +5,11 @@ import tkinter as tk
 from tkinter import *
 
 transaction_data = {
-        'product_id': "001",
-        'price_paid': 1.50,
+        'product_id': "",
+        'price_paid': 0.0,
         'is_loyal': False,
         'is_valid': False,
-        'payment_choice': "card",
+        'payment_choice': "",
         'final_price_pence': 0
 }
 
