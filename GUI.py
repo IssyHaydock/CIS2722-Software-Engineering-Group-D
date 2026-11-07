@@ -463,8 +463,8 @@ class CardPaymentWindow(tk.Frame):
         displayFrame = Frame(self, bg="white")
         displayFrame.pack(fill="both", expand=True)
 
-        cancelBtn = Button(displayFrame, text='Cancel', bg='#bf0000', fg='white', font=('Arial', 10), command=lambda: 
-                        controller.show_frame(MainWindow))
+        cancelBtn = Button(displayFrame, text='Cancel', bg='#bf0000', fg='white', font=('Arial', 10), command=self.cancel_card_payment)
+                       
         cancelBtn.place(x=0, y=0)
 
 
