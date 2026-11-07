@@ -405,7 +405,7 @@ class CashPaymentWindow(tk.Frame):
     def start_timer(self):
         self.reset_timer()
         self.timer = self.after(120000, 
-                        lambda: self.controller.show_frame(OutcomeWindow))
+                        self.refund_and_exit)
 
     def reset_timer(self):
         if self.timer is not None:
