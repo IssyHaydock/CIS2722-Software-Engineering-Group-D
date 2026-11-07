@@ -556,7 +556,7 @@ class OutcomeWindow(tk.Frame):
         displayText = Label(displayFrame, textvariable=self.display, bg='white', fg='black', font=('Arial', 25))
         displayText.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-        self.after(200, self.displayOutcome())
+      
 
         btnFrame = Frame(self, bg="#d2d8db")
         btnFrame.pack(fill="both", expand=True)
@@ -593,6 +593,7 @@ class OutcomeWindow(tk.Frame):
         btnEnter.grid(row=3, column=2, sticky="nsew")
 
     def on_show(self):
+        self.displayOutcome()
         self.start_timer()
     
     def start_timer(self):
