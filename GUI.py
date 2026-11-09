@@ -49,6 +49,8 @@ class MainWindow(tk.Frame):
     
         self.display = StringVar()
         displayFrame = Frame(self, bg="white")
+        self.error = ""
+        self.errorDisplay = StringVar()
         displayFrame.pack(fill="both", expand=True)
     
         admin_btn = Button(displayFrame, text='Admin', fg='black', bg='#a5b1b8', command=lambda: controller.show_frame(AdminWindow))
@@ -60,6 +62,8 @@ class MainWindow(tk.Frame):
         selectLabel.pack()
         displayText = Label(centreFrame, textvariable=self.display, bg='white', fg='black', font=('Arial', 25), width=4, relief='sunken')
         displayText.pack(pady=2)
+        errorTextLabel = Label(centreFrame, textvariable=self.errorDisplay, bg='white', fg='#bf0000', font=('Arial', 14))
+        errorTextLabel.pack(pady=2)
         
     
         btnFrame = Frame(self, bg="#d2d8db")
@@ -93,8 +97,7 @@ class MainWindow(tk.Frame):
         btnDel.grid(row=3, column=0, sticky="nsew")
         btn0 = Button(btnFrame, text='0', fg="black", bg="#e2e8eb", command=lambda: self.press(0))
         btn0.grid(row=3, column=1, sticky="nsew")
-        btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430", command=lambda: 
-                        controller.show_frame(LoyaltyWindow) if main.set_drink_choice(str(self.text)) else None)
+        btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430", command=lambda: self.conditions())
         btnEnter.grid(row=3, column=2, sticky="nsew")
 
     def press(self, key):    
@@ -112,6 +115,29 @@ class MainWindow(tk.Frame):
         main.reset_transaction()
         self.text = ""
         self.display.set(self.text)
+        self.error = ""
+        self.errorDisplay.set(self.error)
+
+    def out_of_stock(self):
+        self.error = "Product out of stock"
+        self.errorDisplay.set(self.error)
+        self.after(2000, lambda: self.on_show())
+
+    def invalid_entry(self):
+        self.error = "Invalid entry"
+        self.errorDisplay.set(self.error)
+        self.after(2000, lambda: self.on_show())
+
+    def conditions(self):
+        if main.is_valid_product_id(str(self.text)):
+            if main.is_available(str(self.text)):
+                main.set_product_id(str(self.text))
+                self.controller.show_frame(LoyaltyWindow)
+            else:
+                self.out_of_stock()
+        else:
+            self.invalid_entry()
+
 
 
 class LoyaltyWindow(tk.Frame):

@@ -235,7 +235,7 @@ def process_purchase(cash_inserted=0):
 
     return "invalid_payment_method"
 
-
+"""
 def set_drink_choice(choice):
     global transaction_data
     
@@ -251,7 +251,10 @@ def set_drink_choice(choice):
             return False
     else:
         return False
+"""
 
+def set_product_id(choice):
+    transaction_data['product_id'] = choice
      
 # PLACE HOLDER FUNCTIONS <----------------------------------------------------------------------------------------------------------------------------------------------
 def is_available(entry):
