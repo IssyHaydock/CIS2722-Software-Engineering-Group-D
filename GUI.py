@@ -422,7 +422,7 @@ class CashPaymentWindow(tk.Frame):
             self.refund()
             main.save_transaction()
 
-        self.controller.show_frame(OutcomeWindow)
+        self.after(2000, lambda: self.controller.show_frame(OutcomeWindow))
     
     def refund_and_exit(self):
         self.reset_timer()
@@ -431,7 +431,9 @@ class CashPaymentWindow(tk.Frame):
         main.transaction_data["is_valid"] = False
         main.transaction_data["price_paid"] = 0.0
 
-        self.controller.show_frame(OutcomeWindow)
+        self.error = f"£{self.total:.2f} Refunded"
+
+        self.after(2000, lambda: self.controller.show_frame(OutcomeWindow))
             
     def on_show(self):
         self.total = 0
