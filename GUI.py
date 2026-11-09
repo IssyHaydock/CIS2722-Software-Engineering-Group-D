@@ -150,6 +150,8 @@ class LoyaltyWindow(tk.Frame):
     
         self.display = StringVar()
         displayFrame = Frame(self, bg="white")
+        self.error = ""
+        self.errorDisplay = StringVar()
         displayFrame.pack(fill="both", expand=True)
     
         cancelBtn = Button(displayFrame, text='Cancel', bg='#bf0000', fg='white', font=('Arial', 10), command=lambda: 
@@ -165,6 +167,8 @@ class LoyaltyWindow(tk.Frame):
         displayText.pack(pady=5)
         skipBtn = Button(centreFrame, text='Skip', bg='#d2d8db', fg='black', font=('Arial', 14), command=lambda: [main.skip_loyalty(), controller.show_frame(ChoosePaymentWindow)])
         skipBtn.pack(pady=5)
+        errorTextLabel = Label(centreFrame, textvariable=self.errorDisplay, bg='white', fg='#bf0000', font=('Arial', 14))
+        errorTextLabel.pack(pady=2)
         
         
         
@@ -200,7 +204,7 @@ class LoyaltyWindow(tk.Frame):
         btn0 = Button(btnFrame, text='0', fg="black", bg="#e2e8eb", command=lambda: self.press(0))
         btn0.grid(row=3, column=1, sticky="nsew")
         btnEnter = Button(btnFrame, text='\u2713', fg="white", bg="#259430", command=lambda: 
-                        controller.show_frame(ChoosePaymentWindow) if main.is_valid_loyalty(self.text) else None)
+                        controller.show_frame(ChoosePaymentWindow) if main.is_valid_loyalty(self.text) else self.invalid_entry())
         btnEnter.grid(row=3, column=2, sticky="nsew")
 
     def press(self, key):    
@@ -217,8 +221,15 @@ class LoyaltyWindow(tk.Frame):
         self.display.set(self.text)
 
     def on_show(self):
-            self.text = ""
-            self.display.set(self.text)
+        self.text = ""
+        self.display.set(self.text)
+        self.error = ""
+        self.errorDisplay.set(self.error)
+
+    def invalid_entry(self):
+        self.error = "Loyalty Number is not valid"
+        self.errorDisplay.set(self.error)
+        self.after(2000, lambda: self.on_show())
 
 
 
